@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
-@include('layouts.login.head')
-
+<!-- @include('layouts.login.head') -->
+@extends('layouts.partial.header')
 <body class="bg-gradient-primary">
 
     <div class="container">
