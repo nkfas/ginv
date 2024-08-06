@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    @include('layouts.partial.header')
+    @include('layouts.partial.head')
     
     <body id="page-top">
         @yield('page')
