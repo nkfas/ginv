@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+@include('layouts.partial.head')
 
-@extends('layouts.partial.head')
 <body class="bg-gradient-primary">
 
     @yield('page')
@@ -10,7 +10,7 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-   @yield('js')
+    @yield('js')
 </body>
 
 </html>
