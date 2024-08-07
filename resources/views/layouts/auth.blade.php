@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- @include('layouts.login.head') -->
+
 @extends('layouts.partial.head')
 <body class="bg-gradient-primary">
 

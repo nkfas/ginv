@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
 
-@include('layouts.partial.head')
 
-<body class="bg-gradient-primary">
+@extends('layouts.auth')
 
+@section('page')
     <div class="container">
 
         <div class="card o-hidden border-0 shadow-lg my-5">
@@ -80,13 +78,14 @@
         </div>
 
     </div>
-    @include('layouts.partial.footer')
+    @endsection
+
+    @section('js')
+    include('layouts.partial.footer')
     <script>
         $(document).on('click', 'a#reg-frm-btn', function(e) {
+            e.preventDefault();
             $('form#reg-frm').submit();
         });
     </script>
-
-</body>
-
-</html>
+@endsection

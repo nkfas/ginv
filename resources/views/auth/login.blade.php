@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.auth')
 @section('page')
 <div class="container">
 
@@ -79,7 +79,7 @@
 
 <script>
     $(document).on('click', 'a#frm-btn', function(e) {
-        
+        e.preventDefault();
         $('form#log-frm').submit();
     });
 </script>
