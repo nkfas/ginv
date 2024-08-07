@@ -14,7 +14,7 @@ class LoginController extends Controller
         return view('auth.login');
     }
     public function authenticate(Request $request)
-    {
+    {   print_r($request->email);
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],

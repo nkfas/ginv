@@ -15,18 +15,20 @@ class RegisterController extends Controller
     }
 
     public function doregister(Request $request ){
-        // print_r($request);
+         //print_r($request->lastname);
         // die();
         $request->validate([
             'name' =>['required', 'string','min:3','max:30'],
             'email' =>['required'],
-            'password' =>['required','string']
+            'password' =>['required','string'],
+            'lastname' =>['required','string']
         ]);
 
         User::create([
             'name' => $request->get('name'),
             'email'=>$request->get('email'),
             'password' =>Hash::make( $request->get('password')),
+            'lastname'=>$request->get('lastname'),
         ]);
         
          return redirect()->route('login');

@@ -6,13 +6,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\ForgetController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
-
-Route::get('/', function () {
-    return view('dashboard.index');
-});
-
-Route::get('index',[DashboardController::class,'index']);
+Route::get('/',[DashboardController::class,'index'])->name('home');
 
 Route::get('login',[LoginController::class,'login'])->name('login');;
 Route::post('login', [LoginController::class, 'authenticate'])->name('login');
