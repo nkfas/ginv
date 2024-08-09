@@ -56,7 +56,8 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Custom Utilities:</h6>
             <a class="collapse-item" href="utilities-color.html">Customer</a>
-            <a class="collapse-item" href="utilities-border.html">Region</a>
+            <a class="collapse-item" href="{{route('region')}}">Region</a>
+            <a class="collapse-item" href="{{route('country')}}">Country</a>
             <a class="collapse-item" href="utilities-animation.html">State</a>
             <a class="collapse-item" href="utilities-other.html">Mall</a>
         </div>

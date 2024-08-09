@@ -4,7 +4,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-    @include('layouts.partial.leftbar')
+   
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -13,7 +13,7 @@
             <div id="content">
 
              
-              @include('layouts.partial.topbar')
+ 
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -370,7 +370,7 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    @include('layouts.partial.modal')
+    
 @endsection
 
 @section('js')

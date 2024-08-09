@@ -81,7 +81,7 @@
     @endsection
 
     @section('js')
-    include('layouts.partial.footer')
+    include('layouts.partial.footer_js')
     <script>
         $(document).on('click', 'a#reg-frm-btn', function(e) {
             e.preventDefault();

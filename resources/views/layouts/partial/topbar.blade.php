@@ -203,10 +203,4 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <script>
-                    $(document).on('click','a#logut',function(e){
-                        e.preventDefault();
-                        $('')
-                    });
-
-                </script>
+               
