@@ -7,8 +7,8 @@
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Country</h1>
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i>Add Country</a>
+        <a href="{{route('addCountry')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50"></i>Add Country </a>
     </div>
 
     <!-- DataTales Example -->
@@ -21,7 +21,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <!-- <th>Id</th> -->
                             <th>Code</th>
                             <th>English Name</th>
                             <th>Arabic Name</th>
@@ -32,16 +32,23 @@
                     <tfoot>
                         @foreach ($countries as $country)
                         <tr>
-                            <th>{{$country->id}}</th>
+                            <!-- <th>{{$country->id}}</th> -->
                             <th>{{$country->code}}</th>
                             <th>{{$country->title}}</th>
                             <th>{{$country->title_ar}}</th>
                             <th>{{$country->status}}</th>
-                            <th>Edit</th>
+                            <th>
+                            <a class="btn-actions text-info" href="{{ route('countries.edit',['id'=> $country->id]) }}" data-ng-click="edit(data.id)">
+                                    <i class="fa fa-fw fa-edit font-action-icons"></i>
+                                </a>
+                                <a class="btn-actions text-danger" href="" data-ng-click="delete(data.id)">
+                                    <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
+                                </a>
+                            </th>
                         </tr>
                         @endforeach
                     </tfoot>
-                    <tbody>
+                    <!-- <tbody>
                         <tr>
                             <td>Tiger Nixon</td>
                             <td>System Architect</td>
@@ -51,7 +58,7 @@
                             <td>$320,800</td>
                         </tr>     
                       
-                    </tbody>
+                    </tbody> -->
                 </table>
             </div>
         </div>

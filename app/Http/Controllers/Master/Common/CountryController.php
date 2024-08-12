@@ -8,13 +8,60 @@ use  App\Models\Masters\Common\Countrie;
 
 class CountryController extends Controller
 {
-    public function country(){
-        return view('master.common.country');
+    private $_status;
+
+    public function add()
+    {
+        return view('master.common.add_country');
     }
 
-
-    public function list() {
+    public function list()
+    {
         $countries = Countrie::get();
         return view('master.common.country', ["countries" => $countries]);
+    }
+
+    public function save(Request $request)
+    {
+        if ($request->status == "on") {
+            $this->_status = 'active';
+        } else {
+            $this->_status = 'inactive';
+        }
+        $request->validate([
+            'code' => ['required'],
+            'name_en' => ['required'],
+            'name_ar' => ['required']
+
+        ]);
+
+        Countrie::create([
+            'code' => $request->get('code'),
+            'title' => $request->get('name_en'),
+            'title_ar' => $request->get('name_ar'),
+            'status' => $this->_status,
+        ]);
+        return redirect(route('country', absolute: false));
+    }
+    public function edit($id) {
+        $country = Countrie::find($id);
+        return view('master.common.edit_country', ["country" => $country]);
+    }
+    public function update($id,Request $request ){
+       if ($request->status == "on" or $request->status == "active") {
+            $this->_status = 'active';
+        } else {
+            $this->_status = 'inactive';
+        }
+
+        $country = Countrie::find($id);
+        $country->code = $request->code;
+        $country->title =$request->name_en;
+        $country->title_ar = $request->name_ar;
+        $country->status =  $this->_status;
+
+        $country->save();
+
+        return redirect(route('country', absolute: false));
     }
 }

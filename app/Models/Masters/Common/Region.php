@@ -12,6 +12,13 @@ class Region extends Model
 
     public function country()
     {
-        // return $this->belongsTo(Country::class, 'country_id');
+        //  return $this->belongsTo(Country::class, 'country_id');
     }
+    protected $fillable = [
+        'country_id',
+        'code',
+        'title',
+        'title_ar',
+        'status',   
+    ];
 }
