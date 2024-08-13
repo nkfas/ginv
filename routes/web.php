@@ -20,7 +20,7 @@ Route::get('forget',[ForgetController::class,'forget'])->name('forget');
 
 Route::middleware([BasicAuth::class])->group(function (){
     Route::get('/',[DashboardController::class,'index'])->name('home');
-   
+   Route::prefix('master')->group(function(){
     Route::controller(CountryController::class)->group(function () {
         Route::prefix('country')->group(function () {
              Route::get('/', 'list')->name('country');
@@ -30,7 +30,6 @@ Route::middleware([BasicAuth::class])->group(function (){
              Route::put('edit/{id}','update')->name('countries.edit');
         });     
     });
-    
     Route::controller(RegionController::class)->group(function () {
         Route::prefix('region')->group(function () {
              Route::get('/', 'list')->name('region');
@@ -40,7 +39,7 @@ Route::middleware([BasicAuth::class])->group(function (){
              Route::put('redit/{id}','update')->name('region.edit');
         });     
     });
-
+   });
 });
 
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
