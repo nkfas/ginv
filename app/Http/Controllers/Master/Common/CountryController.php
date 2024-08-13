@@ -12,13 +12,13 @@ class CountryController extends Controller
 
     public function add()
     {
-        return view('master.common.add_country');
+        return view('master.common.country.add_country');
     }
 
     public function list()
     {
         $countries = Countrie::get();
-        return view('master.common.country', ["countries" => $countries]);
+        return view('master.common.country.country', ["countries" => $countries]);
     }
 
     public function save(Request $request)
@@ -45,7 +45,7 @@ class CountryController extends Controller
     }
     public function edit($id) {
         $country = Countrie::find($id);
-        return view('master.common.edit_country', ["country" => $country]);
+        return view('master.common.country.edit_country', ["country" => $country]);
     }
     public function update($id,Request $request ){
        if ($request->status == "on" or $request->status == "active") {

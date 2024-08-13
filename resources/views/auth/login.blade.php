@@ -57,7 +57,7 @@
                                     <a class="small" href="forgot-password.html">Forgot Password?</a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="small" href="register.html">Create an Account!</a>
+                                    <a class="small" href="{{route('register')}}">Create an Account!</a>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
 @endsection
 
 @section('js')
-include('layouts.partial.footer')
+
 <script>
     $(document).on('click', 'a#frm-btn', function(e) {
         e.preventDefault();

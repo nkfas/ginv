@@ -12,7 +12,7 @@ class RegionController extends Controller
     private $_status;
     public function add(){
         $countries = Countrie::get();
-        return view('master.common.add_region',["countries" => $countries]);
+        return view('master.common.region.add_region',["countries" => $countries]);
     }
 
     public function list()
@@ -20,7 +20,7 @@ class RegionController extends Controller
         $regions = Region::Join('countries', 'regions.country_id', '=', 'countries.id')
         ->select('regions.*', 'countries.title as country_nameEn','countries.title_ar as country_nameAr')
         ->get();
-        return view('master.common.region', ["regions" => $regions]);
+        return view('master.common.region.region', ["regions" => $regions]);
     }
 
     public function save(Request $request)
@@ -53,7 +53,7 @@ class RegionController extends Controller
         ->select('regions.*', 'countries.title as country_nameEn', 'countries.title_ar as country_nameAr')
         ->where('regions.id', $id)
         ->first();
-        return view('master.common.edit_region', ["region" => $region,"countries" =>$countries]);
+        return view('master.common.region.edit_region', ["region" => $region,"countries" =>$countries]);
     }
 
     public function update($id,Request $request ){
@@ -62,7 +62,7 @@ class RegionController extends Controller
          } else {
              $this->_status = 'inactive';
          }
- 
+        
          $region = Region::find($id);
          $region->country_id = $request->country_id;
          $region->code = $request->code;

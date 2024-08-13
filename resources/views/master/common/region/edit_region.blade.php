@@ -22,7 +22,7 @@
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <select name="country_id" id="" class="">
                                         @foreach($countries as $country)
-                                        <option value="{{$region->country_id}}">{{$country->title}}</option>
+                                        <option value="{{$country->id}}">{{$country->title}}</option>
                                         @endforeach
                                         </select>
                                         </button>
@@ -123,6 +123,18 @@
         e.preventDefault();
         $('form#country-frm').submit();
     });
+
+    
 </script>
+ <!-- Bootstrap core JavaScript-->
+ <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
 
 @endsection

@@ -6,9 +6,9 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Region</h1>
-        <a href="{{route('addRegion')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i>Add Region</a>
+        <h1 class="h3 mb-0 text-gray-800">Country</h1>
+        <a href="{{ route('add-country')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50"></i>Add Country </a>
     </div>
 
     <!-- DataTales Example -->
@@ -21,27 +21,24 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Country</th>
-                            <th>اسم البلد</th>
+                            <!-- <th>Id</th> -->
                             <th>Code</th>
-                            <th>Region Name</th>
-                            <th>اسم المنطقة</th>
+                            <th>English Name</th>
+                            <th>Arabic Name</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($regions as $region)
+                    <tfoot>
+                        @foreach ($countries as $country)
                         <tr>
-                            <td>{{$region->country_nameEn}}</td>
-                            <td>{{$region->country_nameAr}}</td>
-                            <td>{{$region->code}}</td>
-                            <td>{{$region->title}}</td>
-                            <td>{{$region->title_ar}}</td>
-                            <td>{{$region->status}}</td>                           
+                            <!-- <th>{{$country->id}}</th> -->
+                            <th>{{$country->code}}</th>
+                            <th>{{$country->title}}</th>
+                            <th>{{$country->title_ar}}</th>
+                            <th>{{$country->status}}</th>
                             <th>
-                          
-                            <a class="btn-actions text-info" href="{{route('region.edit',['id'=>$region->id])}}" data-ng-click="edit(data.id)">
+                            <a class="btn-actions text-info" href="{{ route('countries.edit',['id'=> $country->id]) }}" data-ng-click="edit(data.id)">
                                     <i class="fa fa-fw fa-edit font-action-icons"></i>
                                 </a>
                                 <a class="btn-actions text-danger" href="" data-ng-click="delete(data.id)">
@@ -50,8 +47,18 @@
                             </th>
                         </tr>
                         @endforeach
-         
-                    </tbody>
+                    </tfoot>
+                    <!-- <tbody>
+                        <tr>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                            <td>$320,800</td>
+                        </tr>     
+                      
+                    </tbody> -->
                 </table>
             </div>
         </div>

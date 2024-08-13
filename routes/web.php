@@ -21,20 +21,25 @@ Route::get('forget',[ForgetController::class,'forget'])->name('forget');
 Route::middleware([BasicAuth::class])->group(function (){
     Route::get('/',[DashboardController::class,'index'])->name('home');
    
+    Route::controller(CountryController::class)->group(function () {
+        Route::prefix('country')->group(function () {
+             Route::get('/', 'list')->name('country');
+             Route::get('/add', 'add')->name('add-country');
+             Route::post('/add', 'save')->name('add-country');
+             Route::get('edit/{id}', 'edit')->name('countries.edit');
+             Route::put('edit/{id}','update')->name('countries.edit');
+        });     
+    });
     
-    Route::get('country',[CountryController::class,'list'])->name(('country'));
-    Route::get('add',[CountryController::class,'add'])->name(('addCountry'));
-    Route::post('add',[CountryController::class,'save'])->name(('addCountry'));
-
-    Route::get('edit_country{id}', [CountryController::class, 'edit'])->name('countries.edit');
-    Route::put('edit_country{id}', [CountryController::class, 'update'])->name('countries.edit');
-
-    Route::get('region',[RegionController::class,'list'])->name(('region'));
-    Route::get('add',[RegionController::class,'add'])->name(('addRegion'));
-    Route::post('add',[RegionController::class,'save'])->name(('addRegion'));
-
-    Route::get('edit_region{id}', [RegionController::class, 'edit'])->name('region.edit');
-    Route::post('edit_region{id}', [RegionController::class, 'update'])->name('region.edit');
+    Route::controller(RegionController::class)->group(function () {
+        Route::prefix('region')->group(function () {
+             Route::get('/', 'list')->name('region');
+             Route::get('/radd', 'add')->name('add-region');
+             Route::post('/radd', 'save')->name('add-region');
+             Route::get('redit/{id}', 'edit')->name('region.edit');
+             Route::put('redit/{id}','update')->name('region.edit');
+        });     
+    });
 
 });
 
