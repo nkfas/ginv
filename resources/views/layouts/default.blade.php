@@ -36,9 +36,9 @@
         <i class="fas fa-angle-up"></i>
     </a>  
         @include('layouts.partial.logout')
-       
-        @yield('js')
         @include('layouts.partial.footer_js')
+        @yield('js')
+        
     </body>
     
 </html>
