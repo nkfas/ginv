@@ -28,7 +28,7 @@ Route::middleware([BasicAuth::class])->group(function (){
              Route::get('/add', 'add')->name('add-country');
              Route::post('/add', 'save')->name('add-country');
              Route::get('edit/{id}', 'edit')->name('countries.edit');
-             Route::put('edit/{id}','update')->name('countries.edit');
+             Route::post('edit/{id}','update')->name('countries.edit');
         });     
     });
     Route::controller(RegionController::class)->group(function () {

@@ -11,6 +11,7 @@
                             </div>
                             <form action="{{ route('region.edit',['id'=> $region->id]) }}" id="country-frm" class="user" method="POST">
                                 @csrf
+                                @method('PUT')
                                 <table style="width:100%">
                                 <tr>
                                         <th>
@@ -22,7 +23,7 @@
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <select name="country_id" id="" class="">
                                         @foreach($countries as $country)
-                                        <option value="{{$country->id}}">{{$country->title}}</option>
+                                        <option value="{{$country->id}}"@if($country->id ==$region->country_id) selected @endif >{{$country->title}}</option>
                                         @endforeach
                                         </select>
                                         </button>
