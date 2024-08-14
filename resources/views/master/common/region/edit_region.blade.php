@@ -122,9 +122,7 @@
     $(document).on('click', 'a#reg-frm-btn', function(e) {
         e.preventDefault();
         $('form#country-frm').submit();
-    });
-
-    
+    });    
 </script>
 
 

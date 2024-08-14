@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Region</h1>
-        <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <a href="{{route('add-customer')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
             <i class="fas fa-plus fa-sm text-white-50"></i>Add Customer</a>
     </div>
 
@@ -31,14 +31,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($regions as $region)
+                        @foreach ($customers as $customer)
                         <tr>
-                            <td>{{$region->country_nameEn}}</td>
-                            <td>{{$region->country_nameAr}}</td>
-                            <td>{{$region->code}}</td>
-                            <td>{{$region->title}}</td>
-                            <td>{{$region->title_ar}}</td>
-                            <td>{{$region->status}}</td>                           
+                            <td>{{$customer->country_nameEn}}</td>
+                            <td>{{$customer->country_nameAr}}</td>
+                            <td>{{$customer->code}}</td>
+                            <td>{{$customer->title}}</td>
+                            <td>{{$customer->title_ar}}</td>
+                            <td>{{$customer->status}}</td>                           
                             <th>
                           
                             <a class="btn-actions text-info" href="{{route('region.edit',['id'=>$region->id])}}" data-ng-click="edit(data.id)">
@@ -63,16 +63,6 @@
 </div>
 <!-- End of Main Content -->
 
-<!-- Footer -->
-<footer class="sticky-footer bg-white">
-    <div class="container my-auto">
-        <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2020</span>
-        </div>
-    </div>
-</footer>
-<!-- End of Footer -->
-
 </div>
 <!-- End of Content Wrapper -->
 
@@ -85,16 +75,3 @@
 
 @endsection
 
-@section('js')
- <!-- Bootstrap core JavaScript-->
- <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-
-@endsection

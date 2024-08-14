@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\ForgetController;
 use App\Http\Controllers\Master\Common\RegionController;
 use App\Http\Controllers\Master\Common\CountryController;
+use App\Http\Controllers\Master\CustomerController;
 use App\Http\Middleware\BasicAuth;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -33,12 +34,20 @@ Route::middleware([BasicAuth::class])->group(function (){
     Route::controller(RegionController::class)->group(function () {
         Route::prefix('region')->group(function () {
              Route::get('/', 'list')->name('region');
-             Route::get('/radd', 'add')->name('add-region');
-             Route::post('/radd', 'save')->name('add-region');
-             Route::get('redit/{id}', 'edit')->name('region.edit');
-             Route::put('redit/{id}','update')->name('region.edit');
+             Route::get('/add', 'add')->name('add-region');
+             Route::post('/add', 'save')->name('add-region');
+             Route::get('edit/{id}', 'edit')->name('region.edit');
+             Route::put('edit/{id}','update')->name('region.edit');
         });     
     });
+    Route::controller(CustomerController::class)->group(function(){
+        Route::prefix('customer')->group(function(){
+            Route::get('/','list')->name('customer');
+            Route::get('/add', 'add')->name('add-customer');
+        });
+
+    });
+
    });
 });
 
