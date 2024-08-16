@@ -57,7 +57,7 @@
             <a class="collapse-item" href="{{route('customer')}}">Customer</a>
             <a class="collapse-item" href="{{route('region')}}">Region</a>
             <a class="collapse-item" href="{{route('country')}}">Country</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
+            <a class="collapse-item" href="{{route('vat')}}">Vat</a>
         </div>
     </div>
 </li>

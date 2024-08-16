@@ -16,8 +16,9 @@ class RegionController extends Controller
     }
 
     public function list(Request $request)
-    {   $countryid = $request->id;
-        $encountry = $request->encountry;
+    {   $countries_reg = Countrie::get();
+        $countryid = $request->id;
+        $country_id = $request->country_id;
         $arcountry = $request->arcountry;
         $enregion = $request->enregion;
         $arregion = $request->arregion;
@@ -28,8 +29,8 @@ class RegionController extends Controller
         if($countryid ){
             $quary = $quary->where('regions.country_id','=',$countryid);
         }
-        if($encountry ){
-            $quary = $quary->where('countries.title', 'like', '%' . $encountry . '%');
+        if($country_id !=0 ){
+            $quary = $quary->where('regions.country_id', 'like', '%' . $country_id . '%');
         }
         if($arcountry ){
             $quary = $quary->where('countries.title_ar', 'like', '%' . $arcountry . '%');
@@ -45,7 +46,8 @@ class RegionController extends Controller
         }
 
         $regions =$quary->get();
-        return view('master.common.region.region', ["regions" => $regions]);
+       
+        return view('master.common.region.region', ["regions" => $regions ,"countries" =>$countries_reg]);
     }
 
     
