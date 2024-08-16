@@ -37,7 +37,7 @@
                             <th>{{$country->code}}</th>
                             <th>{{$country->title}}</th>
                             <th>{{$country->title_ar}}</th>
-                            <th><a href="{{ route('countryby-region',['id'=> $country->id], $country->id) }}">
+                            <th><a href="{{ route('region',['id'=> $country->id], $country->id) }}">
                                 {{$country->regions_count}}
                             </a></th>
                             <th>{{$country->status}}</th>

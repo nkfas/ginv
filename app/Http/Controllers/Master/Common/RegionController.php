@@ -15,23 +15,19 @@ class RegionController extends Controller
         return view('master.common.region.add_region',["countries" => $countries]);
     }
 
-    public function list()
-    {
-        $regions = Region::Join('countries', 'regions.country_id', '=', 'countries.id')
-        ->select('regions.*', 'countries.title as country_nameEn','countries.title_ar as country_nameAr')
-        ->get();
+    public function list(Request $request)
+    {   $countryid = $request->id;
+        
+        $quary = Region::Join('countries', 'regions.country_id', '=', 'countries.id')
+        ->select('regions.*', 'countries.title as country_nameEn','countries.title_ar as country_nameAr');
+        if($countryid ){
+            $quary = $quary->where('regions.country_id','=',$countryid);
+        }
+        $regions =$quary->get();
         return view('master.common.region.region', ["regions" => $regions]);
     }
 
-    public function list_by_countryid($id)
-{
-    $regions = Region::join('countries', 'regions.country_id', '=', 'countries.id')
-        ->select('regions.*', 'countries.title as country_nameEn', 'countries.title_ar as country_nameAr')
-        ->where('regions.country_id', $id)
-        ->get();
-
-    return view('master.common.region.region', ["regions" => $regions]);
-}
+    
 
     public function save(Request $request)
     {
