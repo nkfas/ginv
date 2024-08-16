@@ -15,4 +15,9 @@ class Countrie extends Model
         'title_ar',
         'status',   
     ];
+
+    public function regions()
+    {
+        return $this->hasMany(Region::class, 'country_id');
+    }
 }

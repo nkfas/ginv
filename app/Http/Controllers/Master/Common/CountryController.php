@@ -17,7 +17,8 @@ class CountryController extends Controller
 
     public function list()
     {
-        $countries = Countrie::get();
+        // $countries = Countrie::get();
+        $countries = Countrie::withCount('regions')->get();
         return view('master.common.country.country', ["countries" => $countries]);
     }
 

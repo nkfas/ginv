@@ -25,6 +25,7 @@
                             <th>Code</th>
                             <th>English Name</th>
                             <th>Arabic Name</th>
+                            <th>Count of Region</th>
                             <th>Status</th>
                             <th>Edit</th>
                         </tr>
@@ -36,6 +37,9 @@
                             <th>{{$country->code}}</th>
                             <th>{{$country->title}}</th>
                             <th>{{$country->title_ar}}</th>
+                            <th><a href="{{ route('countryby-region',['id'=> $country->id], $country->id) }}">
+                                {{$country->regions_count}}
+                            </a></th>
                             <th>{{$country->status}}</th>
                             <th>
                             <a class="btn-actions text-info" href="{{ route('countries.edit',['id'=> $country->id]) }}" data-ng-click="edit(data.id)">
