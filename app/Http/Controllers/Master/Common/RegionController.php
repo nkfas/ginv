@@ -17,12 +17,33 @@ class RegionController extends Controller
 
     public function list(Request $request)
     {   $countryid = $request->id;
-        
+        $encountry = $request->encountry;
+        $arcountry = $request->arcountry;
+        $enregion = $request->enregion;
+        $arregion = $request->arregion;
+        $status = $request->status;
+
         $quary = Region::Join('countries', 'regions.country_id', '=', 'countries.id')
         ->select('regions.*', 'countries.title as country_nameEn','countries.title_ar as country_nameAr');
         if($countryid ){
             $quary = $quary->where('regions.country_id','=',$countryid);
         }
+        if($encountry ){
+            $quary = $quary->where('countries.title', 'like', '%' . $encountry . '%');
+        }
+        if($arcountry ){
+            $quary = $quary->where('countries.title_ar', 'like', '%' . $arcountry . '%');
+        }
+        if($enregion ){
+            $quary = $quary->where('regions.title', 'like', '%' . $enregion . '%');
+        }
+        if($arregion ){
+            $quary = $quary->where('regions.title_ar', 'like', '%' . $arregion . '%');
+        }
+        if($status ){
+            $quary = $quary->where('regions.status', 'like', '%' . $status . '%');
+        }
+
         $regions =$quary->get();
         return view('master.common.region.region', ["regions" => $regions]);
     }

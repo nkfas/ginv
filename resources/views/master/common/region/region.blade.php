@@ -20,19 +20,24 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
+                        <form action="">
                         <tr>
-                            <th>Country <div><input type="text"></div> </th>
-                            <th>اسم البلد <div><input type="text"></div></th>
+                            <th>Country <div><input type="text" name="encountry"></div> </th>
+                            <th>اسم البلد <div><input type="text" name="arcountry"></div></th>
                             <th>Code <div><input type="text"></div></th>
-                            <th>Region Name <div><input type="text"></div></th>
-                            <th>اسم المنطقة <div><input type="text"></div></th>
+                            <th>Region Name <div><input type="text" name="enregion"></div></th>
+                            <th>اسم المنطقة <div><input type="text" name="arregion"></div></th>
                             <th>Status 
                                 <div>
                                  <select name="status" id="" class="">
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                 </div></th>
-                            <th>Action</th>
+                            <th>Action
+                                <div><button>Go</button></div>
+                            </th>
+                        </form>
+                       
                         </tr>
                     </thead>
                     <tbody>
