@@ -13,7 +13,7 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-       
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -23,7 +23,8 @@
                             <th>نوع الضريبة</th>
                             <th>Persentage</th>
                             <th>Status</th>
-                            <th>Edit</th>
+                            <th colspan="2">Actions</th>
+                            
                         </tr>
                     </thead>
                     <tfoot>
@@ -31,24 +32,25 @@
                         <tr>
                             <th>{{$tax->title}}</th>
                             <th>{{$tax->title_ar}}</th>
-                            <th>{{$tax->persentage}}</th>  
+                            <th>{{$tax->persentage}}</th>
                             <th>{{$tax->status}}</th>
-                            <th>
-                            <a class="btn-actions text-info" href="{{ route('vat.edit',['id'=> $tax->id]) }}" data-ng-click="edit(data.id)">
+                            <th width="3%">
+                                <a class="btn-actions text-info" href="{{ route('vat.edit',['id'=> $tax->id]) }}" data-ng-click="edit(data.id)">
                                     <i class="fa fa-fw fa-edit font-action-icons"></i>
                                 </a>
+                            </th>
+                            <th width="3%">
                                 <form id="frm-delete" action="" method="POST">
-                                
+
                                     <a class="btn-actions text-danger" href="" data-ng-click="delete(data.id)" id="delete-btn" type="submit">
-                                    <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
-                                </a>
+                                        <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
+                                    </a>
                                 </form>
-                                
                             </th>
                         </tr>
                         @endforeach
                     </tfoot>
-                  
+
                 </table>
             </div>
         </div>
@@ -88,4 +90,3 @@
 </script>
 
 @endsection
-

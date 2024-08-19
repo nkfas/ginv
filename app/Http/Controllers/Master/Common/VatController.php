@@ -67,4 +67,9 @@ class VatController extends Controller
         return redirect(route('vat', absolute: false));
     }
 
+    public function edit($id) {
+        $taxes = Vat::find($id);   
+        return view('master.common.vat.edit_vat', ["taxes" => $taxes]);
+    }
+
 }

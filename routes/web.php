@@ -9,6 +9,7 @@ use App\Http\Controllers\Master\Common\CountryController;
 use App\Http\Controllers\Master\CustomerController;
 use App\Http\Middleware\BasicAuth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Master\StockController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\Master\Common\VatController;
 
@@ -59,6 +60,19 @@ Route::middleware([BasicAuth::class])->group(function () {
                  Route::put('delete/{id}', 'delete')->name('vat.delete');
             });
         });
+
+        Route::controller(StockController::class)->group(function () {
+            Route::prefix('stock')->group(function () {
+                Route::get('/', 'list')->name('stock');
+                 Route::get('/add', 'add')->name('add-stock');
+                 Route::post('/add', 'save')->name('add-stock');
+                 Route::get('edit/{id}', 'edit')->name('stock.edit');
+                 Route::put('edit/{id}', 'update')->name('stock.edit');
+                 Route::put('delete/{id}', 'delete')->name('stock.delete');
+            });
+        });
+
+
 
 
     });

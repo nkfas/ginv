@@ -57,9 +57,17 @@
             <a class="collapse-item" href="{{route('customer')}}">Customer</a>
             <a class="collapse-item" href="{{route('region')}}">Region</a>
             <a class="collapse-item" href="{{route('country')}}">Country</a>
-            <a class="collapse-item" href="{{route('vat')}}">Vat</a>
-        </div>
+            <a class="collapse-item" href="{{route('vat')}}">Vat</a>    
+        </div>  
+        <div class="bg-white py-2 collapse-inner rounded">
+         <h6 class="collapse-header">Stock :</h6>
+            <a class="collapse-item" href="{{route('stock')}}">Stock</a>
+        </div>  
+
+
+        
     </div>
+   
 </li>
 
 <!-- Divider -->

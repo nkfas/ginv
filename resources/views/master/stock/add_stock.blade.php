@@ -7,20 +7,35 @@
             <div class="col-lg-7">
                 <div class="p-5">
                     <div class="text-center">
-                        <h1 class="h4 text-gray-900 mb-4">New Vat</h1>
+                        <h1 class="h4 text-gray-900 mb-4">New Stock</h1>
                     </div>
-                    <form action="" id="country-frm" class="user" method="POST">
+                    <form id="country-frm" class="user" method="POST">
                         @csrf
-                        @method('PUT')
                         <table style="width:100%">
                             <tr>
                                 <th>
-                                    <label for="">Type of Vat En. :</label>
+                                    <label for="">Stock Code :</label>
+                                </th>
+                                <th style="width:70%">
+
+                                    <div class="  mb-sm-0">
+                                        <input type="text" class="form-control " id="stcode" placeholder="Stock Code" name="code"
+                                            value="{{ old('code')}}">
+                                        @error('code')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="">Stock Name En. :</label>
                                 </th>
                                 <th style="width:70%">
                                     <div class="">
-                                        <input type="text" class="form-control form-control-user" id="inputEnglishName" placeholder="Country English Name" name="name_en"
-                                            value="{{ old('name_en') ?? $taxes->title }}">
+                                        <input type="text" class="form-control " id="inputEnglishName" placeholder="Stock Name" name="name_en"
+                                            value="{{ old('name_en')}}">
                                         @error('name_en')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -29,12 +44,11 @@
                             </tr>
                             <tr>
                                 <th>
-                                    <label for="">Type of Vat Ar. :</label>
+                                    <label for="">Stock Name Ar. :</label>
                                 </th>
                                 <th style="width:70%">
                                     <div class="">
-                                        <input type="text" class="form-control form-control-user" id="inputArabicName" placeholder="Country Arabic Name" name="name_ar"
-                                            value="{{ old('name_ar') ?? $taxes->title_ar }}">
+                                        <input type="text" class="form-control" id="inputArabicName" placeholder="Stock Arabic Name" name="name_ar" value="{{ old('name_ar')}}">
                                         @error('name_ar')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -45,32 +59,36 @@
 
                             <tr>
                                 <th>
-                                    <label for="">Persentage :</label>
+                                    <label for="">Vat :</label>
                                 </th>
                                 <th style="width:70%">
-                                    <div class="">
-                                        <input type="text" class="form-control form-control-user" id="inputArabicName" placeholder="Country Arabic Name" name="persentage"
-                                            value="{{ old('persentage') ?? $taxes->persentage }}">
-                                        @error('persentage')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
+                                    <div class="dropdown no-arrow alongside">
+                                        <select name="vat_id" id="vatDropdown" class="form-control" onchange="updatePercentage()">
+                                            <option value="" disabled selected>Select VAT</option>
+                                            @foreach($vats as $vat)
+                                            <option value="{{$vat->percentage}}" data-id="{{$vat->id}}">{{$vat->title}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-
                                 </th>
                             </tr>
-
+                            <tr>
+                                <th><label for="">Percentage</label></th>
+                                <th><input type="number" id="percentageInput" name="percentage" readonly></th>
+                            </tr>
 
                             <tr>
                                 <th> <label for="">Status :</label></th>
                                 <th>
                                     <div class="">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <div class=" mb-3 mb-sm-0">
 
                                             <!-- Rounded switch -->
                                             <label class="switch">
-                                                <input type="checkbox" name="status" value="active" {{ $taxes->status == 'active' ? 'checked' : '' }}>
+                                                <input type="checkbox" name="status">
                                                 <span class="slider round"></span>
                                             </label>
+
 
                                         </div>
                                     </div>
@@ -105,6 +123,13 @@
         e.preventDefault();
         $('form#country-frm').submit();
     });
+</script>
+<script>
+    function updatePercentage() {
+        var select = document.getElementById('vatDropdown');
+        var percentage = select.options[select.selectedIndex].value;
+        document.getElementById('percentageInput').value = percentage;
+    }
 </script>
 
 @endsection
