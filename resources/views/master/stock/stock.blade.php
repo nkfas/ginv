@@ -18,7 +18,7 @@
 
                     <a href="{{route('country')}}" class="d-none d-sm-inline-block btn btn-sm btn-info  ">
                         <i class="fas fa-none fa-sm text-white-50"></i>Country</a>
-                        
+
                     <a href="{{route('add-stock')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                         <i class="fas fa-plus fa-sm text-white-50"></i>Add Stock</a>
                 </th>
@@ -37,7 +37,7 @@
                         <form action="">
                             <tr>
                                 <th>Stock code
-                                   
+
                                 </th>
                                 <th>Stock Name<div><input type="text" name="stkname"></div>
                                 </th>
@@ -75,7 +75,7 @@
                                 <a class="btn-actions text-info" href="{{route('stock.edit',['id'=>$stock->id])}}" data-ng-click="edit(data.id)">
                                     <i class="fa fa-fw fa-edit font-action-icons"></i>
                                 </a>
-                                <a class="btn-actions text-danger" href="" data-ng-click="delete(data.id)">
+                                <a id="delete-stock" href="javascript:void(0);" data-id="{{ $stock->id }}" class="btn-actions text-danger">
                                     <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
                                 </a>
                             </th>
@@ -104,5 +104,35 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+
+@endsection
+
+@section('js')
+<script>
+    $(document).on('click', 'a#delete-stock', function(e) {
+        e.preventDefault();
+
+        var stockId = $(this).data('id'); // Get the data-id attribute
+
+        if (confirm('Are you sure you want to delete this stock?')) {
+            $.ajax({
+                url: '/stock/' + stockId, // Construct the URL dynamically
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token
+                },
+                success: function(response) {
+                    // Handle success
+                    alert('Stock deleted successfully');
+                    location.reload(); // Reload the page or remove the deleted item from the DOM
+                },
+                error: function(xhr) {
+                    // Handle error
+                    alert('Failed to delete the stock');
+                }
+            });
+        }
+    });
+</script>
 
 @endsection

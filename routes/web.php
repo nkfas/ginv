@@ -68,7 +68,7 @@ Route::middleware([BasicAuth::class])->group(function () {
                  Route::post('/add', 'save')->name('add-stock');
                  Route::get('edit/{id}', 'edit')->name('stock.edit');
                  Route::put('edit/{id}', 'update')->name('stock.edit');
-                 Route::put('delete/{id}', 'delete')->name('stock.delete');
+                 Route::delete('/stock/{id}','delete')->name('stock.delete');
             });
         });
 
