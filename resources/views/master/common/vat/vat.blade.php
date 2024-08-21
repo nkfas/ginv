@@ -42,7 +42,7 @@
                             <th width="3%">
                                 <form id="frm-delete" action="" method="POST">
 
-                                    <a class="btn-actions text-danger" href="" data-ng-click="delete(data.id)" id="delete-btn" type="submit">
+                                    <a class="btn-actions text-danger" href="" data-target="#deleteModal" id="delete-btn" type="submit">
                                         <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
                                     </a>
                                 </form>
@@ -72,21 +72,5 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-
-@endsection
-@section('js')
-<script>
-    $(document).on('click', 'a#delete-btn', function(e) {
-        e.preventDefault(); // Prevent the default action of the button
-
-        // Show a confirmation popup
-        if (confirm('Are you sure you want to delete this item?')) {
-            $('form#frm-delete').submit(); // If the user confirms, submit the form
-        } else {
-            // If the user cancels, do nothing
-            return false;
-        }
-    });
-</script>
-
+@include('master.common.vat.delete_vat')
 @endsection

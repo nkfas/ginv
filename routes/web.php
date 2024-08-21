@@ -57,7 +57,7 @@ Route::middleware([BasicAuth::class])->group(function () {
                  Route::post('/add', 'save')->name('add-vat');
                  Route::get('edit/{id}', 'edit')->name('vat.edit');
                  Route::put('edit/{id}', 'update')->name('vat.edit');
-                 Route::put('delete/{id}', 'delete')->name('vat.delete');
+                 Route::get('/vat/{id}', 'delete')->name('vat.delete');
             });
         });
 
@@ -68,7 +68,8 @@ Route::middleware([BasicAuth::class])->group(function () {
                  Route::post('/add', 'save')->name('add-stock');
                  Route::get('edit/{id}', 'edit')->name('stock.edit');
                  Route::put('edit/{id}', 'update')->name('stock.edit');
-                 Route::delete('/stock/{id}','delete')->name('stock.delete');
+                 Route::get('/stock/{id}','delete')->name('stock.delete');
+                 Route::get('/view/{id}','showdelete')->name('stock.view');
             });
         });
 

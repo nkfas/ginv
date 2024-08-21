@@ -126,6 +126,10 @@ class StockController extends Controller
          return redirect(route('stock', absolute: false));
      }
 
+     public function showdelete($id){
+        $stock =Stock::find($id);
+        return  view('master.stock.delete_stock',['stock'=>$stock]);
+     }
 
 
 }
