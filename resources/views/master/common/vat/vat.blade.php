@@ -28,27 +28,29 @@
                         </tr>
                     </thead>
                     <tfoot>
-                        @foreach ($taxes as $tax)
-                        <tr>
-                            <th>{{$tax->title}}</th>
-                            <th>{{$tax->title_ar}}</th>
-                            <th>{{$tax->persentage}}</th>
-                            <th>{{$tax->status}}</th>
-                            <th width="3%">
+                        @forelse ($taxes as $tax)
+                        <tr id="tr_{{ $tax->id }}">
+                            <td>{{$tax->title}}</td>
+                            <td>{{$tax->title_ar}}</td>
+                            <td>{{$tax->persentage}}</td>
+                            <td>{{$tax->status}}</td>
+                            <td width="3%">
                                 <a class="btn-actions text-info" href="{{ route('vat.edit',['id'=> $tax->id]) }}" data-ng-click="edit(data.id)">
                                     <i class="fa fa-fw fa-edit font-action-icons"></i>
                                 </a>
-                            </th>
-                            <th width="3%">
-                                <form id="frm-delete" action="" method="POST">
-
-                                    <a class="btn-actions text-danger" href="" data-target="#deleteModal" id="delete-btn" type="submit">
-                                        <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
-                                    </a>
-                                </form>
-                            </th>
+                            </td>
+                            <td width="3%">                               
+                                <a class="btn-actions text-danger delete-vat" href="{{route('vat.delete',['id'=>$tax->id])}}" data-toggle="modal" id="" data-target="#deleteModal">
+                                    <i class="fa fa-trash font-action-icons"></i>
+                                </a>
+                            </td>
+                           
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="8">No found vat records</td>
+                        </tr>
+                        @endforelse
                     </tfoot>
 
                 </table>
@@ -72,5 +74,34 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-@include('master.common.vat.delete_vat')
+
+@endsection
+
+@section('js')
+<script>
+    $(document).on('click', 'a.delete-vat', function(e) {
+        var stockId = $(this).attr('href');
+        $('a#btn-delete').attr('href',stockId)
+    });
+
+    $(document).on('click', 'a#btn-delete', function(e) {
+        e.preventDefault();
+        $.ajax({
+                url: this.href,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include the CSRF token
+                },
+                success: function(result){
+                    $('tr#tr_'+ result.id).remove();
+                    $('#deleteModal').modal('toggle');
+                    
+                }
+        });
+        
+    });
+
+
+</script>
+
 @endsection

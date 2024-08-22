@@ -89,9 +89,10 @@ class StockController extends Controller
         }
     }
     public function delete($id){
-        $stock = Stock::find($id); 
+        $stock = Stock::find($id);
+        $headers =[]; 
         $stock->delete(); 
-        return redirect(route('stock', absolute: false));
+        return response()->json($stock, 200, $headers);
     }
 
     public function edit($id) {

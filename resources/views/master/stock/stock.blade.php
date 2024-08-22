@@ -62,26 +62,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($stocks as $stock)
-                        <tr>
+                        @forelse ($stocks as $stock)
+                        <tr id="tr_{{ $stock->id }}">
                             <td>{{$stock->code}}</td>
                             <td>{{$stock->name}}</td>
                             <td>{{$stock->name_ar}}</td>
                             <td>{{$stock->vat_type}}</td>
                             <td>{{$stock->vat_percent}}</td>
                             <td>{{$stock->status}}</td>
-                            <th width="3%">
+                            <td width="3%">
                                 <a class="btn-actions text-info" href="{{route('stock.edit',['id'=>$stock->id])}}" data-ng-click="edit(data.id)">
                                     <i class="fa fa-fw fa-edit font-action-icons"></i>
                                 </a>
-                            </th>
-                            <th width="3%">                               
-                                <a class="btn-actions text-danger" href="" data-toggle="modal" id="" data-target="#deleteModal">
+                            </td>
+                            <td width="3%">                               
+                                <a class="btn-actions text-danger delete-stock" href="{{route('stock.delete',['id'=>$stock->id])}}" data-toggle="modal" id="" data-target="#deleteModal">
                                     <i class="fa fa-trash font-action-icons"></i>
                                 </a>
-                            </th>
+                            </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="8">No stock item found</td>
+                        </tr>
+                        @endforelse
 
                     </tbody>
                 </table>
@@ -106,20 +110,34 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-@include('master.stock.delete_stock')
+
 @endsection
 
 @section('js')
-<!-- <script>
-    $(document).on('click', 'a#delete-stock', function(e) {
-        e.preventDefault();
-
-        var stockId = $(this).data('id'); // Get the data-id attribute
-
-        if (confirm('Are you sure you want to delete this stock?')) {
-           
-        }
+<script>
+    $(document).on('click', 'a.delete-stock', function(e) {
+        var stockId = $(this).attr('href');
+        $('a#btn-delete').attr('href',stockId)
     });
-</script> -->
+
+    $(document).on('click', 'a#btn-delete', function(e) {
+        e.preventDefault();
+        $.ajax({
+                url: this.href,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include the CSRF token
+                },
+                success: function(result){
+                    $('tr#tr_'+ result.id).remove();
+                    $('#deleteModal').modal('toggle');
+                    
+                }
+        });
+        
+    });
+
+
+</script>
 
 @endsection

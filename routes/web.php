@@ -53,22 +53,22 @@ Route::middleware([BasicAuth::class])->group(function () {
         Route::controller(VatController::class)->group(function () {
             Route::prefix('vat')->group(function () {
                 Route::get('/', 'list')->name('vat');
-                 Route::get('/add', 'add')->name('add-vat');
-                 Route::post('/add', 'save')->name('add-vat');
+                 Route::get('add', 'add')->name('add-vat');
+                 Route::post('add', 'save')->name('add-vat');
                  Route::get('edit/{id}', 'edit')->name('vat.edit');
                  Route::put('edit/{id}', 'update')->name('vat.edit');
-                 Route::get('/vat/{id}', 'delete')->name('vat.delete');
+                 Route::delete('vat/{id}', 'delete')->name('vat.delete');
             });
         });
 
         Route::controller(StockController::class)->group(function () {
             Route::prefix('stock')->group(function () {
                 Route::get('/', 'list')->name('stock');
-                 Route::get('/add', 'add')->name('add-stock');
-                 Route::post('/add', 'save')->name('add-stock');
+                 Route::get('add', 'add')->name('add-stock');
+                 Route::post('add', 'save')->name('add-stock');
                  Route::get('edit/{id}', 'edit')->name('stock.edit');
                  Route::put('edit/{id}', 'update')->name('stock.edit');
-                 Route::get('/stock/{id}','delete')->name('stock.delete');
+                 Route::delete('stock/{id}','delete')->name('stock.delete');
                  Route::get('/view/{id}','showdelete')->name('stock.view');
             });
         });

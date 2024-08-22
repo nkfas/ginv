@@ -11,7 +11,7 @@
                 <div class="modal-body">Select "Delete" below if you want to delete this Item.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{route('vat.delete',['id'=>$vat->id] )}}">Delete</a>
+                    <a id="btn-delete" class="btn btn-primary" href="">Delete</a>
                 </div>
             </div>
         </div>

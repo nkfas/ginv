@@ -63,10 +63,12 @@ class VatController extends Controller
 
      public function delete($id){
         $vat = Vat::find($id); 
-        $vat->delete(); 
-        return redirect(route('vat', absolute: false));
+        $headers =[]; 
+         $vat->delete(); 
+        return response()->json($vat, 200, $headers);
+       
     }
-
+ 
     public function edit($id) {
         $taxes = Vat::find($id);   
         return view('master.common.vat.edit_vat', ["taxes" => $taxes]);
