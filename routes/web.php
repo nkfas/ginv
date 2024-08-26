@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Master\StockController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\Master\Common\VatController;
+use App\Http\Controllers\Invoice\SalesController;
 
 
 Route::get('login',[LoginController::class,'login'])->name('login');
@@ -47,6 +48,10 @@ Route::middleware([BasicAuth::class])->group(function () {
             Route::prefix('customer')->group(function () {
                 Route::get('/', 'list')->name('customer');
                 Route::get('/add', 'add')->name('add-customer');
+                Route::post('/add', 'save')->name('add-customer');
+                Route::get('edit/{id}', 'edit')->name('customer.edit');
+                Route::put('edit/{id}','update')->name('customer.edit'); 
+                Route::delete('customer/{id}','delete')->name('customer.delete');
             });
         });
 
@@ -69,14 +74,20 @@ Route::middleware([BasicAuth::class])->group(function () {
                  Route::get('edit/{id}', 'edit')->name('stock.edit');
                  Route::put('edit/{id}', 'update')->name('stock.edit');
                  Route::delete('stock/{id}','delete')->name('stock.delete');
-                 Route::get('/view/{id}','showdelete')->name('stock.view');
+                 Route::get('allstock','reportpdf')->name('allstock.pdf');
+                //  Route::get('test','reportpdf2')->name('allstock.pdf');
+               
             });
         });
 
 
-
-
     });
+    Route::controller(SalesController::class)->group(function () {
+        Route::prefix('invoice')->group(function () {
+            Route::get('/','sale')->name('sales');
+        });
+    });
+   
 });
 
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');

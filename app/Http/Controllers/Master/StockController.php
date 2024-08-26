@@ -7,6 +7,7 @@ use App\Models\Masters\Common\Vat;
 use App\Models\Masters\Stock;
 use Illuminate\Http\Request;
 use App\Models\Masters\Common\Idcreater;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class StockController extends Controller
 {
@@ -127,10 +128,15 @@ class StockController extends Controller
          return redirect(route('stock', absolute: false));
      }
 
-     public function showdelete($id){
-        $stock =Stock::find($id);
-        return  view('master.stock.delete_stock',['stock'=>$stock]);
+     public function reportpdf(){
+        $stock = Stock::get();
+        $pdf = Pdf::loadView('master.stock.reports.allstock',['stocks'=>$stock]);
+        return $pdf->download();
      }
-
+     public function reportpdf2(){
+        $stock = Stock::get();
+        // $pdf = Pdf::loadView('master.stock.reports.allstock',['stocks'=>$stock]);
+        return view('master.stock.reports.allstock',['stocks'=>$stock]);
+     }
 
 }

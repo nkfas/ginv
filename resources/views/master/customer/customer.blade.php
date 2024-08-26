@@ -6,7 +6,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Region</h1>
+        <h1 class="h3 mb-0 text-gray-800">Customer</h1>
         <a href="{{route('add-customer')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
             <i class="fas fa-plus fa-sm text-white-50"></i>Add Customer</a>
     </div>
@@ -31,25 +31,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($customers as $customer)
-                        <tr>
-                            <td>{{$customer->country_nameEn}}</td>
-                            <td>{{$customer->country_nameAr}}</td>
+                        @forelse ($customers as $customer)
+                        <tr id="tr_{{ $customer->id }}">
                             <td>{{$customer->code}}</td>
-                            <td>{{$customer->title}}</td>
-                            <td>{{$customer->title_ar}}</td>
+                            <td>{{$customer->name}}</td>
+                            <td>{{$customer->name_ar}}</td>
+                            <td>{{$customer->cr_no}}</td>
+                            <td>{{$customer->vat_no}}</td>
                             <td>{{$customer->status}}</td>                           
-                            <th>
+                            <td>
                           
-                            <a class="btn-actions text-info" href="{{route('region.edit',['id'=>$region->id])}}" data-ng-click="edit(data.id)">
+                            <a class="btn-actions text-info" href="{{route('customer.edit',['id'=>$customer->id])}}" data-ng-click="edit(data.id)">
                                     <i class="fa fa-fw fa-edit font-action-icons"></i>
-                                </a>
-                                <a class="btn-actions text-danger" href="" data-ng-click="delete(data.id)">
-                                    <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
-                                </a>
-                            </th>
+                                </a>                          
+                                    <a class="btn-actions text-danger delete-customer" href="{{route('customer.delete',['id'=>$customer->id])}}" data-toggle="modal" id="" data-target="#deleteModal">
+                                        <i class="fa fa-trash font-action-icons"></i>
+                                    </a>
+                            
+                            </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="8">No Customer found</td>
+                        </tr>
+                        @endforelse
          
                     </tbody>
                 </table>
@@ -75,3 +80,32 @@
 
 @endsection
 
+
+@section('js')
+<script>
+    $(document).on('click', 'a.delete-customer', function(e) {
+        var cusid = $(this).attr('href');
+        $('a#btn-delete').attr('href',cusid)
+    });
+
+    $(document).on('click', 'a#btn-delete', function(e) {
+        e.preventDefault();
+        $.ajax({
+                url: this.href,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include the CSRF token
+                },
+                success: function(result){
+                    $('tr#tr_'+ result.id).remove();
+                    $('#deleteModal').modal('toggle');
+                    
+                }
+        });
+        
+    });
+
+
+</script>
+
+@endsection

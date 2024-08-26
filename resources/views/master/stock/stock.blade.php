@@ -10,7 +10,7 @@
         <table>
             <tr>
                 <th>
-                    <a href="{{ route('country') }}" class="d-none d-sm-inline-block btn btn-sm btn-success">
+                    <a href="{{ route('allstock.pdf') }}" class="d-none d-sm-inline-block btn btn-sm btn-success">
                         <i class="fas fa-none fa-sm text-white-50"></i> Pdf
                     </a>
                     <a href="{{route('country')}}" class="d-none d-sm-inline-block btn btn-sm btn-success ">
