@@ -1,4 +1,5 @@
 @extends('layouts.default')
+
 @section('page')
 <form action="">
   <div class="container-fluid">
@@ -39,10 +40,10 @@
                         </td>
                       </tr>
                       <tr>
+                       
                         <td style="width: 150px;">Customer Code :</td>
-                        <td><Input type="text" class="textwidht"></Input></td>
-                        <td><a href="{{}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                            <i class="fas fa-search fa-sm text-white-50"></i></a></td>
+                        <td><select class="js-customer-ajax" style="width: 100%;"></select></td>
+                       
                       </tr>
                     </table>
 
@@ -78,13 +79,14 @@
           </div>
           <div class="secondRow">
             <div>
-              <a href="#" id="addRowBtn" class="d-none d-sm-inline-block btn btn-sm btn-success">
+              <a href="#" id="addRowBtn" class="d-none d-sm-inline-block btn btn-sm btn-success" >
                 <i class="fas fa-none fa-sm text-white-50"></i> Add
               </a>
               <table id="itemTable" style="width: 100%;">
                 <thead>
                   <tr>
-                    <th style="width:50px;">Slno</th>
+                    <th>s</th>
+                    <th style="width:10px;">Slno</th> 
                     <th>Item Code</th>
                     <th>Item Name</th>
                     <th>Unit Price</th>
@@ -102,19 +104,22 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td style="width:50px;"><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
+                    <td><a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-search fa-sm text-white-50"></i></a></td>
+                    <!-- <td style="width:10px;"><input type="text" name="slno"></td> -->
+                    <td style="width: 10px !important;"><input type="text" name="slno" style="width: 100%;"></td>
+                    <td><input type="text" name="itemcode"></td>
+                    <td><input type="text" name="itemname"></td>
+                    <td><input type="text" name="uprice"></td>
+                    <td><input type="text" name="qty"></td>
+                    <td><input type="text" name="total"></td>
+                    <td><input type="text" name="discp"></td>
+                    <td><input type="text" name="discvalue"></td>
+                    <td><input type="text" name="afterdisc"></td>
+                    <td><input type="text" name="vatp"></td>
+                    <td><input type="text" name="vatamt"></td>
+                    <td><input type="text" name="gtotal"></td>
+                    <td><input type="text" name="vatcode"></td>
                     <td>
                       <a class="btn-actions text-danger deleteRowBtn" href="#">
                         <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
@@ -141,18 +146,28 @@
 <script>
   document.getElementById("addRowBtn").addEventListener("click", function(event) {
     event.preventDefault();
-
     var tableBody = document.querySelector("#itemTable tbody");
-
     var newRow = document.createElement("tr");
 
-    for (var i = 0; i < 13; i++) {
-      var newCell = document.createElement("td");
-      var inputElement = document.createElement("input");
-      inputElement.type = "text";
-      newCell.appendChild(inputElement);
-      newRow.appendChild(newCell);
-    }
+    // Create and append the search button cell
+    var searchButtonCell = document.createElement("td");
+    var searchButton = document.createElement("a");
+    searchButton.href = "#";
+    searchButton.className = "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm";
+    searchButton.innerHTML = '<i class="fas fa-search fa-sm text-white-50"></i>';
+    
+    searchButtonCell.appendChild(searchButton);
+    newRow.appendChild(searchButtonCell);
+
+    // Create and append the input cells
+    ['slno','itemcode','itemname','uprice','qty','total','discp','discvalue','afterdisc','vatp','vatamt','gtotal','vatcode'].forEach(function(item){
+      let td = document.createElement('td');
+      let input = document.createElement('input');
+      input.setAttribute("name", item);
+      input.type = "text";  // Set input type to text
+      td.appendChild(input);
+      newRow.appendChild(td);
+    });
 
     // Create and append the delete button cell
     var actionCell = document.createElement("td");
@@ -160,20 +175,32 @@
     deleteButton.className = "btn-actions text-danger deleteRowBtn";
     deleteButton.href = "#";
     deleteButton.innerHTML = '<i class="fa fa-trash font-action-icons" aria-hidden="true"></i>';
+
     actionCell.appendChild(deleteButton);
     newRow.appendChild(actionCell);
 
     tableBody.appendChild(newRow);
-  });
+});
 
-  // Delegate event to handle delete button clicks
-  document.querySelector("#itemTable").addEventListener("click", function(event) {
+// Delegate event to handle delete button clicks
+document.querySelector("#itemTable").addEventListener("click", function(event) {
     if (event.target.closest(".deleteRowBtn")) {
-      event.preventDefault();
-      var row = event.target.closest("tr");
-      row.remove();
+        event.preventDefault();
+        var row = event.target.closest("tr");
+        row.remove();
     }
-  });
+});
+
+
+$('.js-customer-ajax').select2({
+  ajax: {
+    // url: 'https://api.github.com/search/repositories',
+    url: '{{ route("show_customer")}}',
+    dataType: 'json'
+    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+  }
+});
+
 </script>
 
 @endsection

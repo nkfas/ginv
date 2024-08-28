@@ -75,7 +75,7 @@ Route::middleware([BasicAuth::class])->group(function () {
                  Route::put('edit/{id}', 'update')->name('stock.edit');
                  Route::delete('stock/{id}','delete')->name('stock.delete');
                  Route::get('allstock','reportpdf')->name('allstock.pdf');
-                //  Route::get('test','reportpdf2')->name('allstock.pdf');
+                 Route::get('allCustomer','showAllcustomer')->name('show_customer');
                
             });
         });
