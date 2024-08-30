@@ -112,7 +112,7 @@
                         <i class="fas fa-search fa-sm text-white-50"></i></a></td>
                     <!-- <td style="width:10px;"><input type="text" name="slno"></td> -->
                     <td style="width: 10px !important;"><input type="text" name="slno" style="width: 100%;"></td>
-                    <td><select id="itemcode" class="itemcode" style="width: 100px;"></td>
+                    <td><select id="itemcode" class="itemcode" style="width: 110px;"></td>
                     <td><input type="text" name="itemname" id="itemname"></td>
                     <td><input type="text" name="uprice" id="uprice"></td>
                     <td><input type="text" name="qty" id="qty"></td>
