@@ -112,18 +112,18 @@
                         <i class="fas fa-search fa-sm text-white-50"></i></a></td>
                     <!-- <td style="width:10px;"><input type="text" name="slno"></td> -->
                     <td style="width: 10px !important;"><input type="text" name="slno" style="width: 100%;"></td>
-                    <td><input type="text" name="itemcode"></td>
-                    <td><input type="text" name="itemname"></td>
-                    <td><input type="text" name="uprice"></td>
-                    <td><input type="text" name="qty"></td>
-                    <td><input type="text" name="total"></td>
-                    <td><input type="text" name="discp"></td>
-                    <td><input type="text" name="discvalue"></td>
-                    <td><input type="text" name="afterdisc"></td>
-                    <td><input type="text" name="vatp"></td>
-                    <td><input type="text" name="vatamt"></td>
-                    <td><input type="text" name="gtotal"></td>
-                    <td><input type="text" name="vatcode"></td>
+                    <td><select id="itemcode" class="itemcode" style="width: 100px;"></td>
+                    <td><input type="text" name="itemname" id="itemname"></td>
+                    <td><input type="text" name="uprice" id="uprice"></td>
+                    <td><input type="text" name="qty" id="qty"></td>
+                    <td><input type="text" name="total" id="total"></td>
+                    <td><input type="text" name="discp" id="discp"></td>
+                    <td><input type="text" name="discvalue" id="discvalue"></td>
+                    <td><input type="text" name="afterdisc" id="afterdisc"></td>
+                    <td><input type="text" name="vatp" id="vatp"></td>
+                    <td><input type="text" name="vatamt" id="vatamt"></td>
+                    <td><input type="text" name="gtotal" id="gtotal"></td>
+                    <td><input type="text" name="vatcode" id="vatcode"></td>
                     <td>
                       <a class="btn-actions text-danger deleteRowBtn" href="#">
                         <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
@@ -217,6 +217,31 @@
     
     $('input#vatno').val(e.params.data.vat_no)
   });
+
+
+  $('.itemcode').select2({
+    ajax: {
+      url: "{{route('show_Stock')}}",
+      type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include the CSRF token
+                },
+      dataType: 'json',
+      processResults: function (data, params) {
+      return {
+        results: data
+      };
+      }   
+    }
+  });
+  $('.itemcode').on('select2:select',function(e){
+    $('input#itemcode').val(e.params.data.code)
+    $('input#itemname').val(e.params.data.text)
+    $('input#vatp').val(e.params.data.vat_percent)
+    $('input#vatcode').val(e.params.data.vat_id)
+  });
 </script>
 
+
+<!-- 'id','code','name as text','vat_id','vat_percent' -->
 @endsection
