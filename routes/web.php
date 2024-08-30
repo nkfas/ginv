@@ -75,7 +75,7 @@ Route::middleware([BasicAuth::class])->group(function () {
                  Route::put('edit/{id}', 'update')->name('stock.edit');
                  Route::delete('stock/{id}','delete')->name('stock.delete');
                  Route::get('allstock','reportpdf')->name('allstock.pdf');
-                 Route::get('allCustomer','showAllcustomer')->name('show_customer');
+                
                
             });
         });
@@ -85,6 +85,7 @@ Route::middleware([BasicAuth::class])->group(function () {
     Route::controller(SalesController::class)->group(function () {
         Route::prefix('invoice')->group(function () {
             Route::get('/','sale')->name('sales');
+            Route::get('allCustomer','showAllcustomer')->name('show_customer');
         });
     });
    

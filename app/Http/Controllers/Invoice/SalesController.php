@@ -13,10 +13,15 @@ class SalesController extends Controller
         return view('invoice.sales.sales');
     }
 
-    public function showAllcustomer(){
-        $customer =Customer::where('customer_deal_id','1')
+    public function showAllcustomer(Request $request){
+        $customer =Customer::select(['id','name as text','vat_no'])
+         ->where('customer_deal_id','1')
         ->get();
         $headers =[]; 
         return response()->json($customer, 200, $headers);
+    }
+
+    public function stockShow(){
+        
     }
 }

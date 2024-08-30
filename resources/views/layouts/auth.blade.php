@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-@include('layouts.partial.head')
+
+<head>
+    @include('layouts.partial.head')
+    @yield('css')
+</head>
 
 <body class="bg-gradient-primary">
 
