@@ -1,7 +1,7 @@
-
-
 @section('css')
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{{asset('css/sales.css')}}">
+<link rel="stylesheet" href="{{ asset('css/sales_foot.css')}}">
 @endsection
 @extends('layouts.default')
 @section('page')
@@ -86,11 +86,10 @@
               <a href="#" id="addRowBtn" class="d-none d-sm-inline-block btn btn-sm btn-success">
                 <i class="fas fa-none fa-sm text-white-50"></i> Add
               </a>
-              <table id="itemTable" style="width: 100%;">
+              <table id="itemTable" class="table_details">
                 <thead>
                   <tr>
-                    <th>s</th>
-                    <th style="width:10px;">Slno</th>
+                    <th>Slno</th>
                     <th>Item Code</th>
                     <th>Item Name</th>
                     <th>Unit Price</th>
@@ -108,41 +107,62 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                        <i class="fas fa-search fa-sm text-white-50"></i></a></td>
-                    <!-- <td style="width:10px;"><input type="text" name="slno"></td> -->
-                    <td style="width: 10px !important;"><input type="text" name="slno" style="width: 100%;"></td>
-                    <td><select id="itemcode" class="itemcode" style="width: 110px;"></td>
-                    <td><input type="text" name="itemname" id="itemname"></td>
-                    <td><input type="text" name="uprice" id="uprice"></td>
-                    <td><input type="text" name="qty" id="qty"></td>
-                    <td><input type="text" name="total" id="total"></td>
-                    <td><input type="text" name="discp" id="discp"></td>
-                    <td><input type="text" name="discvalue" id="discvalue"></td>
-                    <td><input type="text" name="afterdisc" id="afterdisc"></td>
-                    <td><input type="text" name="vatp" id="vatp"></td>
-                    <td><input type="text" name="vatamt" id="vatamt"></td>
-                    <td><input type="text" name="gtotal" id="gtotal"></td>
-                    <td><input type="text" name="vatcode" id="vatcode"></td>
+                    <td><input type="text" name="sno" class="slno sno"></td>
+
+                    <td><select class="itemcode select2"></select></td>
+                    <td><input type="text" name="itemname" class="itemname"></td>
+                    <td><input type="text" name="uprice" class="uprice"></td>
+                    <td><input type="text" name="qty" class="qty"></td>
+                    <td><input type="text" name="total" class="total"></td>
+                    <td><input type="text" name="discp" class="discp"></td>
+                    <td><input type="text" name="discvalue" class="discvalue"></td>
+                    <td><input type="text" name="afterdisc" class="afterdisc"></td>
+                    <td><input type="text" name="vatp" class="vatp"></td>
+                    <td><input type="text" name="vatamt" class="vatamt"></td>
+                    <td><input type="text" name="gtotal" class="gtotal"></td>
+                    <td><input type="text" name="vatcode" class="vatcode"></td>
                     <td>
                       <a class="btn-actions text-danger deleteRowBtn" href="#">
                         <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
                       </a>
                     </td>
                   </tr>
+
                 </tbody>
               </table>
             </div>
 
 
           </div>
-          <div class="thirdRow"></div>
+
 
         </div>
       </div>
     </div>
   </div>
-
+  <div class="container">
+    <div class="row">
+      <div class="col">
+       
+      </div>
+      <div class="col">
+       
+      </div>
+      <div class="col">
+        <div>
+        <label for="">Total :</label>
+        <input type="text">
+        </div>
+        <div>
+        <label for="">Total VAT :</label>
+        <input type="text" name="" id="">
+        </div>
+      
+      
+      </div>
+    </div>
+  </div>
+ 
 </form>
 @endsection
 
@@ -155,23 +175,35 @@
     var newRow = document.createElement("tr");
 
     // Create and append the search button cell
-    var searchButtonCell = document.createElement("td");
-    var searchButton = document.createElement("a");
-    searchButton.href = "#";
-    searchButton.className = "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm";
-    searchButton.innerHTML = '<i class="fas fa-search fa-sm text-white-50"></i>';
+    // var searchButtonCell = document.createElement("td");
+    // var searchButton = document.createElement("a");
+    // searchButton.href = "#";
+    // searchButton.className = "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm";
+    // searchButton.innerHTML = '<i class="fas fa-search fa-sm text-white-50"></i>';
 
-    searchButtonCell.appendChild(searchButton);
-    newRow.appendChild(searchButtonCell);
+    // searchButtonCell.appendChild(searchButton);
+    // newRow.appendChild(searchButtonCell);
 
     // Create and append the input cells
-    ['slno', 'itemcode', 'itemname', 'uprice', 'qty', 'total', 'discp', 'discvalue', 'afterdisc', 'vatp', 'vatamt', 'gtotal', 'vatcode'].forEach(function(item) {
+    ['sno', 'itemcode', 'itemname', 'uprice', 'qty', 'total', 'discp', 'discvalue', 'afterdisc', 'vatp', 'vatamt', 'gtotal', 'vatcode'].forEach(function(item) {
       let td = document.createElement('td');
-      let input = document.createElement('input');
-      input.setAttribute("name", item);
-      input.type = "text"; // Set input type to text
+      let input;
+      if ("sno" == item) {
+        input = document.createElement('input');
+        input.setAttribute("class", 'slno')
+      }
+      if ("itemcode" == item) {
+        input = document.createElement('select');
+        input.setAttribute("name", item);
+        input.setAttribute("class", 'itemcode')
+      } else if ("sno" != item) {
+        input = document.createElement('input');
+        input.setAttribute("name", item);
+        input.type = "text"; // Set input type to text
+      }
       td.appendChild(input);
       newRow.appendChild(td);
+
     });
 
     // Create and append the delete button cell
@@ -185,6 +217,7 @@
     newRow.appendChild(actionCell);
 
     tableBody.appendChild(newRow);
+    itemselect();
   });
 
   // Delegate event to handle delete button clicks
@@ -201,44 +234,114 @@
     ajax: {
       url: "{{route('show_customer')}}",
       type: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include the CSRF token
-                },
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include the CSRF token
+      },
       dataType: 'json',
-      processResults: function (data, params) {
-      return {
-        results: data
-      };
-      }   
+      processResults: function(data, params) {
+        return {
+          results: data
+        };
+      }
     }
   });
 
-  $('.customercode').on('select2:select',function(e){
-    
+  $('.customercode').on('select2:select', function(e) {
+
     $('input#vatno').val(e.params.data.vat_no)
   });
 
+  function itemselect() {
+    $('.itemcode').select2({
+      ajax: {
+        url: "{{route('show_Stock')}}",
+        type: 'GET',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include the CSRF token
+        },
+        dataType: 'json',
+        processResults: function(data, params) {
+          return {
+            results: data
+          };
+        }
+      }
+    });
+  };
 
-  $('.itemcode').select2({
-    ajax: {
-      url: "{{route('show_Stock')}}",
-      type: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include the CSRF token
-                },
-      dataType: 'json',
-      processResults: function (data, params) {
-      return {
-        results: data
-      };
-      }   
+  itemselect();
+
+  // $('.itemcode').on('select2:select',function(e){
+  //   $('input#itemcode').val(e.params.data.code)
+  //   $('input#itemname').val(e.params.data.text)
+  //   $('input#vatp').val(e.params.data.vat_percent)
+  //   $('input#vatcode').val(e.params.data.vat_id)
+  // });
+  //   $('.itemcode').on('select2:select', function(e) {
+  //     // Find the closest tr (current row) to the select element
+  //     let currentRow = $(this).closest('tr');
+
+  //     // Fill the inputs within the current row based on the selection
+  //     currentRow.find('input#itemcode').val(e.params.data.code);
+  //     currentRow.find('input#itemname').val(e.params.data.text);
+  //     currentRow.find('input#vatp').val(e.params.data.vat_percent);
+  //     currentRow.find('input#vatcode').val(e.params.data.vat_id);
+  // });
+
+  $(document).on('select2:select', '.itemcode', function(e) {
+    let currentRow = $(e.target).closest('tr');
+    // console.log('Row identified:', currentRow); // Debug row identification
+    // console.log('Selected data:', e.params.data); // Inspect the selected data
+    let tbody = currentRow.closest('tbody');
+    let rowIndex = tbody.find('tr').index(currentRow) + 1; // Add 1 to convert zero-based index to one-based
+    console.log(rowIndex);
+    // Set the values in the corresponding inputs within the current row
+    console.log('Current Row:', currentRow);
+    console.log('Row Index:', rowIndex);
+
+    // Set the values in the corresponding inputs within the current row
+    let slnoInput = currentRow.find('input[name="sno"]');
+    console.log('SL No Input:', slnoInput);
+
+    // Check if the input is found and set the value
+    if (slnoInput.length) {
+      slnoInput.val(rowIndex);
+    } else {
+      console.error('SL No input field not found.');
     }
+
+
+
+    currentRow.find('input[name="sno"]').val(rowIndex);
+    currentRow.find('input[name="itemname"]').val(e.params.data.text);
+    currentRow.find('input[name="uprice"]').val(e.params.data.uprice);
+    currentRow.find('input[name="vatp"]').val(e.params.data.vat_percent);
+    currentRow.find('input[name="vatcode"]').val(e.params.data.vat_id);
   });
-  $('.itemcode').on('select2:select',function(e){
-    $('input#itemcode').val(e.params.data.code)
-    $('input#itemname').val(e.params.data.text)
-    $('input#vatp').val(e.params.data.vat_percent)
-    $('input#vatcode').val(e.params.data.vat_id)
+
+
+
+
+  // $(document).on("blur", 'input[name="qty"]', function(e) {
+  //   let tr = $(e.target.closest('tr'));
+  //   let price = tr.find('input[name="uprice"]').val();
+  //   let qty = tr.find('input[name="qty"]').val();
+  //   let total = tr.find('input[name="total"]').val(price * qty);
+
+  // })
+  $(document).on("input", 'input[name="qty"]', function(e) {
+    // Find the closest row to the current input element
+    let tr = $(e.target).closest('tr');
+
+    // Get the values of price and quantity from the respective inputs
+    let price = parseFloat(tr.find('input[name="uprice"]').val()) || 0;
+    let qty = parseFloat(tr.find('input[name="qty"]').val()) || 0;
+
+    // Calculate the total and set the value in the total input
+    tr.find('input[name="total"]').val(price * qty);
+
+
+
   });
 </script>
 

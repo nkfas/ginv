@@ -1,0 +1,17 @@
+.table_details{
+    width: 100%;
+}
+
+.itemcode{
+    width: 110px;
+  }
+  .slno{
+    width: 100%;
+  }
+  .tdslno{
+    width: 20px !important;
+  }
+
+  /* style="width: 10px !important;"
+  style="width: 100%;"
+  */

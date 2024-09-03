@@ -23,7 +23,8 @@ class SalesController extends Controller
     }
 
     public function stockShow(Request $request){
-        $stocks = Stock::select(['id','code','name as text','vat_id','vat_percent'])->get();
+        $stocks = Stock::select(['id','code','name as text','vat_id','vat_percent'])
+        ->get();
         $headers =[]; 
         return response()->json($stocks, 200, $headers);
 
