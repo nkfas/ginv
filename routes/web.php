@@ -87,6 +87,8 @@ Route::middleware([BasicAuth::class])->group(function () {
             Route::get('/','sale')->name('sales');
             Route::get('allCustomer','showAllcustomer')->name('show_customer');
             Route::get('allStcok','stockShow')->name('show_Stock');
+            Route::post('/', 'save')->name('add-sales');
+
         });
     });
    

@@ -29,4 +29,10 @@ class SalesController extends Controller
         return response()->json($stocks, 200, $headers);
 
     }
+
+    public function save(Request $request){
+        print_r($request->all());
+        die();
+
+    }
 }

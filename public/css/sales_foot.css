@@ -12,6 +12,12 @@
     width: 20px !important;
   }
 
+  .numeric-input {
+    text-align: right;
+    appearance: auto;
+  -webkit-appearance: none;
+  }
+  
   /* style="width: 10px !important;"
   style="width: 100%;"
   */
