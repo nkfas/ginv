@@ -71,7 +71,7 @@
                   <table style="width:100%">
                     <tr>
                       <td style="width: 150px;">Invoice No :</td>
-                      <td><input id="invoiceno" name="invoiceno" type="text" class="textwidht"  value="{{ old('invoiceno') ?? '' }}"></td>
+                      <td><input id="invoiceno" name="invoiceno" type="text" class="textwidht" value="{{ old('invoiceno') ?? '' }}"></td>
                       <td><a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                           <i class="fas fa-search fa-sm text-white-50"></i></a></td>
                     </tr>
@@ -101,7 +101,7 @@
                     <th>After Discount</th>
                     <th>Vat %</th>
                     <th>Vat Amount</th>
-                    <th>Grand befordisc</th>
+                    <th>Grand Total</th>
                     <th>Vat Code</th>
                     <th>Action</th>
                   </tr>
@@ -113,17 +113,17 @@
                     <td><select name="invoice[0][stock_id]" class="stock_id select2"></select></td>
                     <td><input type="text" name="invoice[0][itemname]" class="itemname"></td>
                     <td>
-                      <input type="number" name="invoice[0][uprice]" class="uprice numeric-input" style="text-align: right;">
+                      <input type="number" name="invoice[0][uprice]" class="uprice numeric-input textright">
                     </td>
 
-                    <td><input type="text" name="invoice[0][qty]" class="qty"></td>
-                    <td><input type="text" name="invoice[0][befordisc]" class="befordisc"></td>
-                    <td><input type="text" name="invoice[0][discp]" class="discp"></td>
-                    <td><input type="text" name="invoice[0][discamt]" class="discamt"></td>
-                    <td><input type="text" name="invoice[0][afterdisc]" class="afterdisc"></td>
-                    <td><input type="text" name="invoice[0][vatp]" class="vatp"></td>
-                    <td><input type="text" name="invoice[0][vatamt]" class="vatamt"></td>
-                    <td><input type="text" name="invoice[0][aftervat]" class="aftervat"></td>
+                    <td><input type="number" name="invoice[0][qty]" class="qty textright"></td>
+                    <td><input type="number" name="invoice[0][befordisc]" class="befordisc textright"></td>
+                    <td><input type="number" name="invoice[0][discp]" class="discp textright"></td>
+                    <td><input type="number" name="invoice[0][discamt]" class="discamt textright"></td>
+                    <td><input type="number" name="invoice[0][afterdisc]" class="afterdisc textright"></td>
+                    <td><input type="number" name="invoice[0][vatp]" class="vatp textright"></td>
+                    <td><input type="number" name="invoice[0][vatamt]" class="vatamt textright"></td>
+                    <td><input type="number" name="invoice[0][aftervat]" class="aftervat textright"></td>
                     <td><input type="text" name="invoice[0][vatcode]" class="vatcode"></td>
                     <td>
                       <a class="btn-actions text-danger deleteRowBtn" href="#">
@@ -164,13 +164,13 @@
             <tr>
               <td>befordisc VAT :</td>
               <td>
-                <input type="text" id="sumVat" name="sumVat" placeholder="Sum of VAT" class="textright"  readonly>
+                <input type="text" id="sumVat" name="sumVat" placeholder="Sum of VAT" class="textright" readonly>
               </td>
             </tr>
             <tr>
               <td>Net befordisc</td>
               <td>
-                <input type="text" id="grandbefordisc" name="grandbefordisc" placeholder="Grand befordisc" class="textright"  readonly>
+                <input type="text" id="grandbefordisc" name="grandbefordisc" placeholder="Grand befordisc" class="textright" readonly>
               </td>
             </tr>
           </table>
@@ -217,7 +217,13 @@
         // Optionally add options to the select element here
       } else {
         input = document.createElement('input');
-        input.type = "text"; // Set input type to text
+        if (item != 'itemname') {
+          input.setAttribute("class", 'textright');
+          input.type = "number";
+        } else {
+          input.type = "text"; // Set input type to text
+        }
+
       }
 
       // Set the name attribute dynamically
@@ -364,29 +370,45 @@
     // Calculate befordisc
     let price = parseFloat(tr.find('input[name*="[uprice]"]').val()) || 0;
     let qty = parseFloat(tr.find('input[name*="[qty]"]').val()) || 0;
-    tr.find('input[name*="[befordisc]"]').val(price * qty);
+    let total = price * qty;
+    // Format total to 2 decimal places
+    let formattedTotal = total.toFixed(2);
+    // Set the formatted value to the input field
+    tr.find('input[name*="[befordisc]"]').val(formattedTotal);
+
+    // tr.find('input[name*="[befordisc]"]').val(price * qty);
 
     // Calculate Discount
     let befordiscamt = parseFloat(tr.find('input[name*="[befordisc]"]').val()) || 0;
     let discp = parseFloat(tr.find('input[name*="[discp]"]').val()) || 0;
     if (discp > 0) {
-      tr.find('input[name*="[discamt]"]').val((befordiscamt * discp) / 100);
+      let disamt =(befordiscamt * discp) / 100;
+      let formattedDiscp = disamt.toFixed(2);
+      tr.find('input[name*="[discamt]"]').val(formattedDiscp);
     }
 
     // Calculate After Discount
     let discv = parseFloat(tr.find('input[name*="[discamt]"]').val()) || 0;
-    tr.find('input[name*="[afterdisc]"]').val(befordiscamt - discv);
+    let discmatBformat = befordiscamt - discv;
+    let formDiscamt = discmatBformat.toFixed(2);
+    // tr.find('input[name*="[afterdisc]"]').val(befordiscamt - discv);
+    tr.find('input[name*="[afterdisc]"]').val(formDiscamt);
 
     // Calculate VAT
     let Aftdisc = parseFloat(tr.find('input[name*="[afterdisc]"]').val());
     let vatp = parseFloat(tr.find('input[name*="[vatp]"]').val()) || 0;
     if (vatp > 0) {
-      tr.find('input[name*="[vatamt]"]').val((Aftdisc * vatp) / 100);
+      let vatbformat = (Aftdisc * vatp) / 100;
+      let formatVatamt =vatbformat.toFixed(2);
+      // tr.find('input[name*="[vatamt]"]').val((Aftdisc * vatp) / 100);
+      tr.find('input[name*="[vatamt]"]').val(formatVatamt);
     }
 
     // Calculate Grand befordisc per row
     let vatvalue = parseFloat(tr.find('input[name*="[vatamt]"]').val()) || 0;
-    tr.find('input[name*="[aftervat]"]').val(Aftdisc + vatvalue);
+    let aftervatbformat = Aftdisc + vatvalue;
+    let formatAfterdisc = aftervatbformat.toFixed(2);
+    tr.find('input[name*="[aftervat]"]').val(formatAfterdisc);
 
     // Call the function to update the sums of befordiscs and VAT
     updateSums();
