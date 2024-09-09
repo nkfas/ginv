@@ -6,7 +6,7 @@
 @extends('layouts.default')
 @section('page')
 <form action="" id="inv-frm" method="POST">
-@csrf
+  @csrf
   <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800">Sales</h1>
@@ -47,7 +47,7 @@
                       <tr>
 
                         <td style="width: 150px;">Customer Code :</td>
-                        <td><select id="customercode" class="customercode" style="width: 100%;"></select></td>
+                        <td><select id="customercode" name="customercode" class="customercode" style="width: 100%;"></select></td>
 
                       </tr>
                     </table>
@@ -59,11 +59,11 @@
                   <table style="width:100%">
                     <tr>
                       <td style="width: 150px;">Customer Name :</td>
-                      <td><Input type="text" class="textwidht"></Input></td>
+                      <td><Input type="text" id="cusname" name="cusname" class="textwidht"></Input></td>
                     </tr>
                     <tr>
                       <td style="width: 150px;">Customer Vat No :</td>
-                      <td><Input id="vatno" type="text" class="textwidht"></Input></td>
+                      <td><Input id="vatno" type="text" name="vatno" class="textwidht"></Input></td>
                     </tr>
                   </table>
                 </div>
@@ -71,7 +71,7 @@
                   <table style="width:100%">
                     <tr>
                       <td style="width: 150px;">Invoice No :</td>
-                      <td><input id="invoiceno" type="text" class="textwidht"></td>
+                      <td><input id="invoiceno" name="invoiceno" type="text" class="textwidht"  value="{{ old('invoiceno') ?? '' }}"></td>
                       <td><a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                           <i class="fas fa-search fa-sm text-white-50"></i></a></td>
                     </tr>
@@ -95,36 +95,36 @@
                     <th>Item Name</th>
                     <th>Unit Price</th>
                     <th>Quantity</th>
-                    <th>Total</th>
+                    <th>befordisc</th>
                     <th>Discount%</th>
                     <th>Discount Amount</th>
                     <th>After Discount</th>
                     <th>Vat %</th>
                     <th>Vat Amount</th>
-                    <th>Grand Total</th>
+                    <th>Grand befordisc</th>
                     <th>Vat Code</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td><input type="text" name="invoice[sno][]" class="slno sno"></td>
-
-                    <td><select class="itemcode select2"></select></td>
-                    <td><input type="text" name="invoice[itemname][]" class="itemname"></td>
+                    <!-- <td><input type="text" name="invoice[0][sno]" class="slno sno"></td> -->
+                    <td><input type="text" name="invoice[0][sno]" class="slno sno" value="1" readonly></td>
+                    <td><select name="invoice[0][stock_id]" class="stock_id select2"></select></td>
+                    <td><input type="text" name="invoice[0][itemname]" class="itemname"></td>
                     <td>
-                      <input type="number" name="invoice[].uprice" class="uprice numeric-input" step="0.01">
+                      <input type="number" name="invoice[0][uprice]" class="uprice numeric-input" style="text-align: right;">
                     </td>
 
-                    <td><input type="text" name="invoice[].qty" class="qty"></td>
-                    <td><input type="text" name="invoice[].total" class="total"></td>
-                    <td><input type="text" name="invoice[].discp" class="discp"></td>
-                    <td><input type="text" name="invoice[].discvalue" class="discvalue"></td>
-                    <td><input type="text" name="invoice[].afterdisc" class="afterdisc"></td>
-                    <td><input type="text" name="invoice[].vatp" class="vatp"></td>
-                    <td><input type="text" name="invoice[].vatamt" class="vatamt"></td>
-                    <td><input type="text" name="invoice[].gtotal" class="gtotal"></td>
-                    <td><input type="text" name="invoice[].vatcode" class="vatcode"></td>
+                    <td><input type="text" name="invoice[0][qty]" class="qty"></td>
+                    <td><input type="text" name="invoice[0][befordisc]" class="befordisc"></td>
+                    <td><input type="text" name="invoice[0][discp]" class="discp"></td>
+                    <td><input type="text" name="invoice[0][discamt]" class="discamt"></td>
+                    <td><input type="text" name="invoice[0][afterdisc]" class="afterdisc"></td>
+                    <td><input type="text" name="invoice[0][vatp]" class="vatp"></td>
+                    <td><input type="text" name="invoice[0][vatamt]" class="vatamt"></td>
+                    <td><input type="text" name="invoice[0][aftervat]" class="aftervat"></td>
+                    <td><input type="text" name="invoice[0][vatcode]" class="vatcode"></td>
                     <td>
                       <a class="btn-actions text-danger deleteRowBtn" href="#">
                         <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
@@ -156,22 +156,24 @@
         <div>
           <table>
             <tr>
-              <td>Total :</td>
-              <td><input type="text" id="sumTotal" placeholder="Sum of Totals" readonly></td>
+              <td>befordisc :</td>
+              <td>
+                <input type="text" id="sumbefordisc" name="sumbefordisc" placeholder="Sum of befordiscs" class="textright" readonly>
+              </td>
             </tr>
             <tr>
-              <td>Total VAT :</td>
-              <td><input type="text" id="sumVat" placeholder="Sum of VAT" readonly></td>
+              <td>befordisc VAT :</td>
+              <td>
+                <input type="text" id="sumVat" name="sumVat" placeholder="Sum of VAT" class="textright"  readonly>
+              </td>
             </tr>
             <tr>
-              <td>Net Total</td>
-              <td><input type="text" id="grandTotal" placeholder="Grand Total" readonly></td>
+              <td>Net befordisc</td>
+              <td>
+                <input type="text" id="grandbefordisc" name="grandbefordisc" placeholder="Grand befordisc" class="textright"  readonly>
+              </td>
             </tr>
           </table>
-
-
-
-
         </div>
 
 
@@ -190,42 +192,40 @@
     $('form#inv-frm').submit();
   });
 
-
+  let row = 0; // Initialize row count to 0
   document.getElementById("addRowBtn").addEventListener("click", function(event) {
+    row++;
     event.preventDefault();
     var tableBody = document.querySelector("#itemTable tbody");
     var newRow = document.createElement("tr");
 
-    // Create and append the search button cell
-    // var searchButtonCell = document.createElement("td");
-    // var searchButton = document.createElement("a");
-    // searchButton.href = "#";
-    // searchButton.className = "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm";
-    // searchButton.innerHTML = '<i class="fas fa-search fa-sm text-white-50"></i>';
-
-    // searchButtonCell.appendChild(searchButton);
-    // newRow.appendChild(searchButtonCell);
-
-    // Create and append the input cells
-    ['invoice[sno][]', 'invoice[itemcode][]', 'invoice[].itemname', 'invoice[].uprice', 'invoice[].qty', 'invoice[].total', 'invoice[].discp', 'invoice[].discvalue', 'invoice[].afterdisc', 'invoice[].vatp', 'invoice[].vatamt', 'invoice[].gtotal', 'invoice[].vatcode'].forEach(function(item) {
+    // List of input field names
+    ['sno', 'stock_id', 'itemname', 'uprice', 'qty', 'befordisc', 'discp', 'discamt', 'afterdisc', 'vatp', 'vatamt', 'aftervat', 'vatcode'].forEach(function(item) {
       let td = document.createElement('td');
       let input;
-      if ("sno" == item) {
+
+      // Create inputs based on the field type
+      if (item === 'sno') {
         input = document.createElement('input');
-        input.setAttribute("class", 'slno')
-      }
-      if ("itemcode" == item) {
+        input.setAttribute("class", 'slno sno');
+        input.type = "text"; // Set type to text (or number if preferred)
+        input.value = row + 1; // Set the default serial number starting from 1
+        input.setAttribute("readonly", true); // Optional: make it readonly if it shouldn't be editable
+      } else if (item === 'stock_id') {
         input = document.createElement('select');
-        input.setAttribute("name", item);
-        input.setAttribute("class", 'itemcode')
-      } else if ("sno" != item) {
+        input.setAttribute("class", 'stock_id');
+        // Optionally add options to the select element here
+      } else {
         input = document.createElement('input');
-        input.setAttribute("name", item);
         input.type = "text"; // Set input type to text
       }
+
+      // Set the name attribute dynamically
+      let rowName = `invoice[${row}][${item}]`;
+      input.setAttribute("name", rowName);
+
       td.appendChild(input);
       newRow.appendChild(td);
-
     });
 
     // Create and append the delete button cell
@@ -235,12 +235,22 @@
     deleteButton.href = "#";
     deleteButton.innerHTML = '<i class="fa fa-trash font-action-icons" aria-hidden="true"></i>';
 
+    // Add event listener to handle row deletion
+    deleteButton.addEventListener("click", function(event) {
+      event.preventDefault();
+      newRow.remove(); // Remove the row from the table
+    });
+
     actionCell.appendChild(deleteButton);
     newRow.appendChild(actionCell);
 
+    // Append the new row to the table body
     tableBody.appendChild(newRow);
+
+    // Call the itemselect function if needed
     itemselect();
   });
+
 
   // Delegate event to handle delete button clicks
   document.querySelector("#itemTable").addEventListener("click", function(event) {
@@ -274,7 +284,7 @@
   });
 
   function itemselect() {
-    $('.itemcode').select2({
+    $('.stock_id').select2({
       ajax: {
         url: "{{route('show_Stock')}}",
         type: 'GET',
@@ -310,7 +320,7 @@
   //     currentRow.find('input#vatcode').val(e.params.data.vat_id);
   // });
 
-  $(document).on('select2:select', '.itemcode', function(e) {
+  $(document).on('select2:select', '.stock_id', function(e) {
     let currentRow = $(e.target).closest('tr');
     // console.log('Row identified:', currentRow); // Debug row identification
     // console.log('Selected data:', e.params.data); // Inspect the selected data
@@ -331,11 +341,11 @@
     } else {
       console.error('SL No input field not found.');
     }
-    currentRow.find('input[name="sno"]').val(rowIndex);
-    currentRow.find('input[name="itemname"]').val(e.params.data.text);
-    currentRow.find('input[name="uprice"]').val(e.params.data.uprice);
-    currentRow.find('input[name="vatp"]').val(e.params.data.vat_percent);
-    currentRow.find('input[name="vatcode"]').val(e.params.data.vat_id);
+    // currentRow.find('input[name="sno"]').val(rowIndex);
+    currentRow.find('input[name*="itemname"]').val(e.params.data.text);
+    currentRow.find('input[name*="uprice"]').val(e.params.data.uprice);
+    currentRow.find('input[name*="vatp"]').val(e.params.data.vat_percent);
+    currentRow.find('input[name*="vatcode"]').val(e.params.data.vat_id);
   });
 
 
@@ -343,67 +353,68 @@
   //   let tr = $(e.target.closest('tr'));
   //   let price = tr.find('input[name="uprice"]').val();
   //   let qty = tr.find('input[name="qty"]').val();
-  //   let total = tr.find('input[name="total"]').val(price * qty);
+  //   let befordisc = tr.find('input[name="befordisc"]').val(price * qty);
 
   // })
 
-  $(document).on("input", 'input[name="uprice"], input[name="qty"], input[name="discp"], input[name="vatp"]', function(e) {
+  $(document).on("input", 'input[name^="invoice"][name*="[uprice]"], input[name^="invoice"][name*="[qty]"], input[name^="invoice"][name*="[discp]"], input[name^="invoice"][name*="[vatp]"]', function(e) {
     // Handle the input for price, quantity, discount, and VAT calculations
     let tr = $(e.target).closest('tr');
 
-    // Calculate Total
-    let price = parseFloat(tr.find('input[name="uprice"]').val()) || 0;
-    let qty = parseFloat(tr.find('input[name="qty"]').val()) || 0;
-    tr.find('input[name="total"]').val(price * qty);
+    // Calculate befordisc
+    let price = parseFloat(tr.find('input[name*="[uprice]"]').val()) || 0;
+    let qty = parseFloat(tr.find('input[name*="[qty]"]').val()) || 0;
+    tr.find('input[name*="[befordisc]"]').val(price * qty);
 
     // Calculate Discount
-    let totalamt = parseFloat(tr.find('input[name="total"]').val()) || 0;
-    let discp = parseFloat(tr.find('input[name="discp"]').val()) || 0;
+    let befordiscamt = parseFloat(tr.find('input[name*="[befordisc]"]').val()) || 0;
+    let discp = parseFloat(tr.find('input[name*="[discp]"]').val()) || 0;
     if (discp > 0) {
-      tr.find('input[name="discvalue"]').val((totalamt * discp) / 100);
+      tr.find('input[name*="[discamt]"]').val((befordiscamt * discp) / 100);
     }
 
     // Calculate After Discount
-    let discv = parseFloat(tr.find('input[name="discvalue"]').val()) || 0;
-    tr.find('input[name="afterdisc"]').val(totalamt - discv);
+    let discv = parseFloat(tr.find('input[name*="[discamt]"]').val()) || 0;
+    tr.find('input[name*="[afterdisc]"]').val(befordiscamt - discv);
 
     // Calculate VAT
-    let Aftdisc = parseFloat(tr.find('input[name="afterdisc"]').val());
-    let vatp = parseFloat(tr.find('input[name="vatp"]').val()) || 0;
+    let Aftdisc = parseFloat(tr.find('input[name*="[afterdisc]"]').val());
+    let vatp = parseFloat(tr.find('input[name*="[vatp]"]').val()) || 0;
     if (vatp > 0) {
-      tr.find('input[name="vatamt"]').val((Aftdisc * vatp) / 100);
+      tr.find('input[name*="[vatamt]"]').val((Aftdisc * vatp) / 100);
     }
 
-    // Calculate Grand Total per row
-    let vatvalue = parseFloat(tr.find('input[name="vatamt"]').val()) || 0;
-    tr.find('input[name="gtotal"]').val(Aftdisc + vatvalue);
+    // Calculate Grand befordisc per row
+    let vatvalue = parseFloat(tr.find('input[name*="[vatamt]"]').val()) || 0;
+    tr.find('input[name*="[aftervat]"]').val(Aftdisc + vatvalue);
 
-    // Call the function to update the sums of totals and VAT
+    // Call the function to update the sums of befordiscs and VAT
     updateSums();
   });
 
+
   function updateSums() {
-    let sumTotal = 0;
+    let sumbefordisc = 0;
     let sumVat = 0;
-    let grandTotal = 0;
+    let grandbefordisc = 0;
 
 
-    // Iterate over each row to calculate the sum of 'total' and 'vatamt'
+    // Iterate over each row to calculate the sum of 'befordisc' and 'vatamt'
     $('#itemTable tr').each(function() {
-      let rowTotal = parseFloat($(this).find('input[name="afterdisc"]').val()) || 0;
-      let rowVat = parseFloat($(this).find('input[name="vatamt"]').val()) || 0;
+      let rowbefordisc = parseFloat($(this).find('input[name*="afterdisc"]').val()) || 0;
+      let rowVat = parseFloat($(this).find('input[name*="vatamt"]').val()) || 0;
 
-      sumTotal += rowTotal;
+      sumbefordisc += rowbefordisc;
       sumVat += rowVat;
     });
 
-    // Calculate the grand total
-    grandTotal = sumTotal + sumVat;
+    // Calculate the grand befordisc
+    grandbefordisc = sumbefordisc + sumVat;
 
     // Update the values in the sum text boxes
-    $('#sumTotal').val(sumTotal.toFixed(2));
+    $('#sumbefordisc').val(sumbefordisc.toFixed(2));
     $('#sumVat').val(sumVat.toFixed(2));
-    $('#grandTotal').val(grandTotal.toFixed(2));
+    $('#grandbefordisc').val(grandbefordisc.toFixed(2));
   }
 </script>
 @endsection

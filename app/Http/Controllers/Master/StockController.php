@@ -117,7 +117,7 @@ class StockController extends Controller
          if($fcode==0){
          $stock = Stock::find($id);
          $stock->code = $request->code;
-         $stock->name = $request->name;
+         $stock->name = $request->name_en;
          $stock->name_ar =$request->name_ar;
          $stock->vat_id = $request->vat_id;
          $stock->vat_percent = $request->percentage;

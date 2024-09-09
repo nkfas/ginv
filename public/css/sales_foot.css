@@ -2,7 +2,7 @@
     width: 100%;
 }
 
-.itemcode{
+.stock_id{
     width: 110px;
   }
   .slno{
@@ -17,7 +17,9 @@
     appearance: auto;
   -webkit-appearance: none;
   }
-  
+  .textright{
+    text-align: right;
+  }
   /* style="width: 10px !important;"
   style="width: 100%;"
   */
