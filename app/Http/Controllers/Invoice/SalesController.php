@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use  App\Models\Invoice\Salehead;
 use  App\Models\Invoice\Sale_items;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 
 class SalesController extends Controller
@@ -48,40 +49,56 @@ class SalesController extends Controller
 
     public function save(Request $request)
     {
-        $request->validate([
+        
+     $request->validate([
             'customercode' => ['required'],
-            'sumTotal' => ['required'],
-            'grandTotal' => ['required'],
+            'sumbefordisc' => ['required'],
+            'grandbefordisc' => ['required'],
             'invoice.sno.*' => ['required'],
-            'invoice.itemcode.*' => ['required'],
+            'invoice.stock_id.*' => ['required'],
 
         ]);
-      
-            DB::transaction(function () use ($request) {
+       
+    // $validator = Validator::make($request->all(),[
+    //     'customercode' => ['required'],
+    //     'sumbefordisc' => ['required'],
+    //     'grandbefordisc' => ['required'],
+    //     'invoice.sno.*' => ['required'],
+    //     'invoice.stock_id.*' => ['required'],
+    // ]);
+    // if ($validator->fails()) {
+    //     print_r($validator->errors());
+    // }
+        
+        
+        
+             DB::transaction(function () use ($request) {
                 $_maxInvoice = $this->generateNextInvoiceNo();
                 $_cuscode = Customer::where('id', $request->customercode)->first();
-                print_r($request->get('invoice'));
-                die();
+                
                 $saleh = Salehead::create([
                     'invdate' => $request->get('invdate'),
                     'invno' => $_maxInvoice,
                     'cus_id' => $request->get('customercode'),
                     'cuscode' => $_cuscode->get('code'),
-                    'total' => $request->get('sumTotal'),
+                    'total' => $request->get('sumbefordisc'),
                     'vat' => $request->get('sumVat'),
-                    'gtotal' => $request->get('grandTotal'),
+                    'gtotal' => $request->get('grandbefordisc'),
                 ]);
                 $invoices = $request->get('invoice');
-
+                // print_r($invoices);
+                // die();
                 // Check if $invoices is an array and loop correctly
                 if (is_array($invoices) && !empty($invoices)) {
                     foreach ($invoices as &$invoice) { // Use a reference to modify each invoice directly
                         $invoice['saleh_id'] = $saleh->id; // Add the saleh_id to each invoice item
                         unset($invoice['sno']);
                         unset($invoice['itemname']); // Remove itemname from each invoice
+                        $invoice['discp']= $invoice['discp']??0;
+                        $invoice['discamt']= $invoice['discamt']??0;    
+                        
                     }
-                   
-                     die();
+                                  
                     // Bulk insert the invoices into sale_items table
                     Sale_items::insert($invoices);
 
@@ -90,7 +107,7 @@ class SalesController extends Controller
                     //     'invoiceNumber' => $_maxInvoice
                     // ]);
                 }
-            });
+             });
 
        
     }

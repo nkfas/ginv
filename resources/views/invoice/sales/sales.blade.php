@@ -124,7 +124,7 @@
                     <td><input type="number" name="invoice[0][vatp]" class="vatp textright"></td>
                     <td><input type="number" name="invoice[0][vatamt]" class="vatamt textright"></td>
                     <td><input type="number" name="invoice[0][aftervat]" class="aftervat textright"></td>
-                    <td><input type="text" name="invoice[0][vatcode]" class="vatcode"></td>
+                    <td><input type="text" name="invoice[0][vat_id]" class="vat_id"></td>
                     <td>
                       <a class="btn-actions text-danger deleteRowBtn" href="#">
                         <i class="fa fa-trash font-action-icons" aria-hidden="true"></i>
@@ -200,7 +200,7 @@
     var newRow = document.createElement("tr");
 
     // List of input field names
-    ['sno', 'stock_id', 'itemname', 'uprice', 'qty', 'befordisc', 'discp', 'discamt', 'afterdisc', 'vatp', 'vatamt', 'aftervat', 'vatcode'].forEach(function(item) {
+    ['sno', 'stock_id', 'itemname', 'uprice', 'qty', 'befordisc', 'discp', 'discamt', 'afterdisc', 'vatp', 'vatamt', 'aftervat', 'vat_id'].forEach(function(item) {
       let td = document.createElement('td');
       let input;
 
@@ -351,7 +351,7 @@
     currentRow.find('input[name*="itemname"]').val(e.params.data.text);
     currentRow.find('input[name*="uprice"]').val(e.params.data.uprice);
     currentRow.find('input[name*="vatp"]').val(e.params.data.vat_percent);
-    currentRow.find('input[name*="vatcode"]').val(e.params.data.vat_id);
+    currentRow.find('input[name*="vat_id"]').val(e.params.data.vat_id);
   });
 
 
