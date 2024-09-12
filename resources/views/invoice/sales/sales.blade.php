@@ -22,7 +22,7 @@
             <a href="{{route('country')}}" class="d-none d-sm-inline-block btn btn-sm btn-info  ">
               <i class="fas fa-none fa-sm text-white-50"></i>Country</a>
 
-            <a href="" id="inv-frm-btn" type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <a href="{{route('add-sales')}}" id="btn-save" type="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm save-invoice">
               <i class="fas fa-save fa-sm text-white-50"></i>Save</a>
           </th>
         </tr>
@@ -187,10 +187,40 @@
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-  $(document).on('click', 'a#inv-frm-btn', function(e) {
+  
+  $(document).on('click', 'a.save-invoice', function (e) {
+    e.preventDefault(); // Prevent default anchor click behavior
+    var invoiceid = $(this).attr('href');
+    $('a#btn-save').attr('href', invoiceid); // Assign the href to the save button
+});
+
+$(document).on('click', 'a#btn-save', function (e) {
     e.preventDefault();
-    $('form#inv-frm').submit();
-  });
+    var saveUrl = $(this).attr('href'); // Get the href value from the button
+
+    if (saveUrl) {
+        $.ajax({
+            url: saveUrl,
+            type: 'POST', // Use POST for creating or updating data
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // Include the CSRF token
+            },
+            success: function (result) {
+                alert(result.message); // Assuming the response has a message property
+                // Perform any additional actions here
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                alert('An error occurred while saving.'); // Error handling
+            },
+        });
+    } else {
+        alert('Save URL is missing!');
+    }
+});
+
+
+
 
   let row = 0; // Initialize row count to 0
   document.getElementById("addRowBtn").addEventListener("click", function(event) {

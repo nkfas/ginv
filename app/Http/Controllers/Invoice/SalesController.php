@@ -75,7 +75,7 @@ class SalesController extends Controller
              DB::transaction(function () use ($request) {
                 $_maxInvoice = $this->generateNextInvoiceNo();
                 $_cuscode = Customer::where('id', $request->customercode)->first();
-                
+                $headers =[]; 
                 $saleh = Salehead::create([
                     'invdate' => $request->get('invdate'),
                     'invno' => $_maxInvoice,
@@ -107,6 +107,7 @@ class SalesController extends Controller
                     //     'invoiceNumber' => $_maxInvoice
                     // ]);
                 }
+                return response()->json($saleh, 200, $headers);
              });
 
        
