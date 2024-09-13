@@ -20,6 +20,11 @@
   .textright{
     text-align: right;
   }
+  .disabled {
+    pointer-events: none; /* Prevents clicks */
+    opacity: 0.5; /* Makes the link appear disabled */
+    cursor: not-allowed; /* Changes cursor to indicate disabled */
+}
   /* style="width: 10px !important;"
   style="width: 100%;"
   */

@@ -5,7 +5,7 @@
 @endsection
 @extends('layouts.default')
 @section('page')
-<form action="" id="inv-frm" method="POST">
+<form action="{{route('add-sales')}}" id="inv-frm" method="POST">
   @csrf
   <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -13,16 +13,17 @@
       <table>
         <tr>
           <th>
+          <a href="{{route('country')}}" class="d-none d-sm-inline-block btn btn-sm btn-info  ">
+              <i class="fas fa-new fa-sm text-white-50"></i>New</a>
+
             <a href="{{ route('country') }}" class="d-none d-sm-inline-block btn btn-sm btn-success">
               <i class="fas fa-none fa-sm text-white-50"></i> Pdf
             </a>
             <a href="{{route('country')}}" class="d-none d-sm-inline-block btn btn-sm btn-success ">
               <i class="fas fa-none fa-sm text-white-50"></i>Excel</a>
 
-            <a href="{{route('country')}}" class="d-none d-sm-inline-block btn btn-sm btn-info  ">
-              <i class="fas fa-none fa-sm text-white-50"></i>Country</a>
-
-            <a href="{{route('add-sales')}}" id="btn-save" type="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm save-invoice">
+           
+            <a  id="btn-save" type="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm save-invoice">
               <i class="fas fa-save fa-sm text-white-50"></i>Save</a>
           </th>
         </tr>
@@ -187,27 +188,35 @@
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-  
-  $(document).on('click', 'a.save-invoice', function (e) {
-    e.preventDefault(); // Prevent default anchor click behavior
-    var invoiceid = $(this).attr('href');
-    $('a#btn-save').attr('href', invoiceid); // Assign the href to the save button
-});
-
-$(document).on('click', 'a#btn-save', function (e) {
+  $('a#btn-save').on('click',function(e){
     e.preventDefault();
-    var saveUrl = $(this).attr('href'); // Get the href value from the button
-
+    $('form#inv-frm').submit();
+  })
+  
+$(document).on('submit', 'form#inv-frm', function (e) {
+    e.preventDefault();
+    // alert(this.action);
+    var saveUrl =this.action; // Get the href value from the button
+    
     if (saveUrl) {
+      
+      var formData = new FormData(this);
+      
         $.ajax({
             url: saveUrl,
             type: 'POST', // Use POST for creating or updating data
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // Include the CSRF token
-            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            // headers: {
+            //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // Include the CSRF token
+            // },
+             
             success: function (result) {
-                alert(result.message); // Assuming the response has a message property
+                // alert(result); // Assuming the response has a message property
                 // Perform any additional actions here
+                $('input[name="invoiceno"]').val(result); 
+                $('#btn-save').addClass('disabled').off('click'); 
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);

@@ -39,9 +39,9 @@ class SalesController extends Controller
     public function stockShow(Request $request)
     {
         $stocks = Stock::select(['id', 'code', 'name as text', 'name_ar', 'vat_id', 'vat_percent'])
-            ->where('code', 'like', '%')
-            ->orWhere('name', 'like', '%')
-            ->orWhere('name_ar', 'like', '%')
+            ->where('code', 'like', "%$request->term%")
+            ->orWhere('name', 'like', "%$request->term%")
+            ->orWhere('name_ar', 'like',"%$request->term%")
             ->get();
         $headers = [];
         return response()->json($stocks, 200, $headers);
@@ -70,17 +70,17 @@ class SalesController extends Controller
     //     print_r($validator->errors());
     // }
         
-        
-        
-             DB::transaction(function () use ($request) {
-                $_maxInvoice = $this->generateNextInvoiceNo();
+             $_maxInvoice = DB::transaction(function () use ($request) { 
+
+                $_maxInvoice = $this->generateNextInvoiceNo();   
                 $_cuscode = Customer::where('id', $request->customercode)->first();
                 $headers =[]; 
+               
                 $saleh = Salehead::create([
                     'invdate' => $request->get('invdate'),
                     'invno' => $_maxInvoice,
                     'cus_id' => $request->get('customercode'),
-                    'cuscode' => $_cuscode->get('code'),
+                    'cuscode' => $_cuscode->code,
                     'total' => $request->get('sumbefordisc'),
                     'vat' => $request->get('sumVat'),
                     'gtotal' => $request->get('grandbefordisc'),
@@ -107,9 +107,10 @@ class SalesController extends Controller
                     //     'invoiceNumber' => $_maxInvoice
                     // ]);
                 }
-                return response()->json($saleh, 200, $headers);
+                return $_maxInvoice;
              });
-
+            
+             return response()->json($_maxInvoice, 200);
        
     }
     private function generateNextInvoiceNo()
