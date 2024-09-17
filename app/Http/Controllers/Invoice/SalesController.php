@@ -11,7 +11,7 @@ use  App\Models\Invoice\Salehead;
 use  App\Models\Invoice\Sale_items;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SalesController extends Controller
 {
@@ -107,7 +107,11 @@ class SalesController extends Controller
                     //     'invoiceNumber' => $_maxInvoice
                     // ]);
                 }
-                return $_maxInvoice;
+                return [
+                    'invoice_number' => $_maxInvoice,
+                    'saleh_id' => $saleh->id
+                ];
+                
              });
             
              return response()->json($_maxInvoice, 200);
@@ -130,4 +134,34 @@ class SalesController extends Controller
         // Optional: Use the generated invoice number
         return $nextInvoiceNo;
     }
+    public function printSales($id)
+    {
+        // Fetching sales header data
+        $salesHData = Salehead::join('customers', 'saleheads.cus_id', '=', 'customers.id')
+            ->select('saleheads.*', 'customers.code', 'customers.account_id', 'customers.name as cusengname', 'customers.name_ar as cusarname',
+                'customers.address', 'customers.address_ar', 'customers.phone', 'customers.mobile'
+            )
+            ->where('saleheads.id', $id)->first();
+
+            // print_r($salesHData);
+            // die();
+    
+        // Fetching sale items data
+        $salesData = Sale_items::join('stocks', 'sale_items.stock_id', '=', 'stocks.id')
+            ->select('sale_items.*', 'stocks.name', 'stocks.name_ar', 'stocks.vat_id', 'stocks.vat_percent')
+            ->where('sale_items.saleh_id', $id) // Assuming saleh_id is linked to sale_items
+            ->get();
+    
+        // Check if sales data is not null
+        if (!$salesHData || !$salesData) {
+            return redirect()->back()->withErrors('Sales data not found.');
+        }
+    
+        // Load the PDF view with the sales data
+        $pdf = Pdf::loadView('invoice.sales.reports.sales_invoice', compact('salesHData', 'salesData'));
+    
+        // Return the PDF as a stream to display in browser
+        return $pdf->stream('sales-invoice.pdf');
+    }
+    
 }

@@ -13,17 +13,19 @@
       <table>
         <tr>
           <th>
-          <a href="{{route('country')}}" class="d-none d-sm-inline-block btn btn-sm btn-info  ">
-              <i class="fas fa-new fa-sm text-white-50"></i>New</a>
-
-            <a href="{{ route('country') }}" class="d-none d-sm-inline-block btn btn-sm btn-success">
-              <i class="fas fa-none fa-sm text-white-50"></i> Pdf
+            <a href="{{ url()->current() }}" class="d-none d-sm-inline-block btn btn-sm btn-info">
+              <i class="fas fa-file fa-sm text-white-50"></i> New
             </a>
+
+            <a id="pdf-link" href="#" class="d-none d-sm-inline-block btn btn-sm btn-success">
+              <i class="fas fa-file-pdf fa-sm text-white-50"></i> Pdf
+            </a>
+
             <a href="{{route('country')}}" class="d-none d-sm-inline-block btn btn-sm btn-success ">
               <i class="fas fa-none fa-sm text-white-50"></i>Excel</a>
 
-           
-            <a  id="btn-save" type="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm save-invoice">
+
+            <a id="btn-save" type="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm save-invoice">
               <i class="fas fa-save fa-sm text-white-50"></i>Save</a>
           </th>
         </tr>
@@ -188,45 +190,54 @@
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-  $('a#btn-save').on('click',function(e){
+  $('a#btn-save').on('click', function(e) {
     e.preventDefault();
     $('form#inv-frm').submit();
   })
-  
-$(document).on('submit', 'form#inv-frm', function (e) {
+
+  $(document).on('submit', 'form#inv-frm', function(e) {
     e.preventDefault();
     // alert(this.action);
-    var saveUrl =this.action; // Get the href value from the button
-    
+    var saveUrl = this.action; // Get the href value from the button
+
     if (saveUrl) {
-      
+
       var formData = new FormData(this);
-      
-        $.ajax({
-            url: saveUrl,
-            type: 'POST', // Use POST for creating or updating data
-            data: formData,
-            processData: false,
-            contentType: false,
-            // headers: {
-            //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // Include the CSRF token
-            // },
-             
-            success: function (result) {
-                // alert(result); // Assuming the response has a message property
-                // Perform any additional actions here
-                $('input[name="invoiceno"]').val(result); 
-                $('#btn-save').addClass('disabled').off('click'); 
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-                alert('An error occurred while saving.'); // Error handling
-            },
-        });
+
+      $.ajax({
+        url: saveUrl,
+        type: 'POST', // Use POST for creating or updating data
+        data: formData,
+        processData: false,
+        contentType: false,
+        // headers: {
+        //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // Include the CSRF token
+        // },
+
+        success: function(result) {
+          // alert(result); // Assuming the response has a message property
+          // Perform any additional actions here
+          // alert("Invoice Number: " + result.invoice_number + "\nSale Header ID: " + result.saleh_id);
+
+          // Set the invoice number in the input field
+          $('input[name="invoiceno"]').val(result.invoice_number);
+
+          $('#pdf-link')
+            .attr('href', '{{ route("sales.print", ["id" => ":saleh_id"]) }}'.replace(':saleh_id', result.saleh_id))
+            .attr('target', '_blank'); // Open in a new tab
+
+          // Disable the save button after successful save
+          $('#btn-save').addClass('disabled').off('click');
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', error);
+          alert('An error occurred while saving.'); // Error handling
+        },
+      });
     } else {
-        alert('Save URL is missing!');
+      alert('Save URL is missing!');
     }
-});
+  });
 
 
 
@@ -421,7 +432,7 @@ $(document).on('submit', 'form#inv-frm', function (e) {
     let befordiscamt = parseFloat(tr.find('input[name*="[befordisc]"]').val()) || 0;
     let discp = parseFloat(tr.find('input[name*="[discp]"]').val()) || 0;
     if (discp > 0) {
-      let disamt =(befordiscamt * discp) / 100;
+      let disamt = (befordiscamt * discp) / 100;
       let formattedDiscp = disamt.toFixed(2);
       tr.find('input[name*="[discamt]"]').val(formattedDiscp);
     }
@@ -438,7 +449,7 @@ $(document).on('submit', 'form#inv-frm', function (e) {
     let vatp = parseFloat(tr.find('input[name*="[vatp]"]').val()) || 0;
     if (vatp > 0) {
       let vatbformat = (Aftdisc * vatp) / 100;
-      let formatVatamt =vatbformat.toFixed(2);
+      let formatVatamt = vatbformat.toFixed(2);
       // tr.find('input[name*="[vatamt]"]').val((Aftdisc * vatp) / 100);
       tr.find('input[name*="[vatamt]"]').val(formatVatamt);
     }

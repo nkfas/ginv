@@ -88,6 +88,7 @@ Route::middleware([BasicAuth::class])->group(function () {
             Route::get('allCustomer','showAllcustomer')->name('show_customer');
             Route::get('allStcok','stockShow')->name('show_Stock');
             Route::post('/', 'save')->name('add-sales');
+            Route::get('invoiceprint/{id}','printSales')->name('sales.print');
 
         });
     });
