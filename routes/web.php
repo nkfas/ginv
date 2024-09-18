@@ -33,6 +33,7 @@ Route::middleware([BasicAuth::class])->group(function () {
                 Route::post('/add', 'save')->name('add-country');
                 Route::get('edit/{id}', 'edit')->name('countries.edit');
                 Route::post('edit/{id}', 'update')->name('countries.edit');
+                Route::get('/countryactiveinactive', 'view_acive_and_inactive')->name('showallcountry');
             });
         });
         Route::controller(RegionController::class)->group(function () {

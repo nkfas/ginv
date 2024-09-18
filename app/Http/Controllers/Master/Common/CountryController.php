@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Master\Common;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use  App\Models\Masters\Common\Countrie;
+use Illuminate\Support\Collection;
 
 class CountryController extends Controller
 {
@@ -64,5 +65,23 @@ class CountryController extends Controller
         $country->save();
 
         return redirect(route('country', absolute: false));
+    }
+
+    public function view_acive_and_inactive() {
+
+        $countries = Countrie::all();
+
+         
+        $activeCountries = $countries->filter(function ($country) {
+            return $country->status == 'active'; 
+        });
+
+        $inactiveCountries = $countries->filter(function ($country) {
+            return $country->status == 'inactive';   
+        });
+
+         
+         return view('master.common.country.country_active_inactive', compact('activeCountries', 'inactiveCountries'));
+        
     }
 }
