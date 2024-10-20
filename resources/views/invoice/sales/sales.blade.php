@@ -13,6 +13,10 @@
       <table>
         <tr>
           <th>
+          <a href="" id="btn-edit" class="d-none d-sm-inline-block btn btn-sm btn-info">
+              <i class="fas fa-edit fa-sm text-white-50"></i> Edit
+            </a>
+
             <a href="{{ url()->current() }}" class="d-none d-sm-inline-block btn btn-sm btn-info">
               <i class="fas fa-file fa-sm text-white-50"></i> New
             </a>
@@ -487,6 +491,15 @@
     $('#sumbefordisc').val(sumbefordisc.toFixed(2));
     $('#sumVat').val(sumVat.toFixed(2));
     $('#grandbefordisc').val(grandbefordisc.toFixed(2));
+
+    $('a#btn-edit').on('click',function(e){
+      e.preventDefault();
+
+      
+
+    });
+
+
   }
 </script>
 @endsection
